@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "549284956287",
+    "firebase_url": "https://lahuapp.firebaseio.com",
+    "project_id": "lahuapp",
+    "storage_bucket": "lahuapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:549284956287:android:4cdaf9c94e6ed8b04ed74a",
+        "android_client_info": {
+          "package_name": "com.example.lahu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "549284956287-bja4hm81phumtcii0d56omdp9mkh7mu6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lahu",
+            "certificate_hash": "b8843ee9fb825a2cd7a095db83b6ee1dcd7c9184"
+          }
+        },
+        {
+          "client_id": "549284956287-edhqljd0cvq2v4tnbtc4oppa7kgeo66k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAS2hx_TjDSY99NddJ-InQaP5WFKw8FPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "549284956287-edhqljd0cvq2v4tnbtc4oppa7kgeo66k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
