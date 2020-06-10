@@ -76,6 +76,7 @@ class _AskDataState extends State<AskData> {
                     ),
                     SizedBox(height: 20.0),
                     DropdownButtonFormField<String>(
+                      hint: Text('Select Blood Group'),
                       value: _currentBloodType,
                       icon: Icon(Icons.arrow_downward),
                       iconSize: 24,
@@ -95,6 +96,7 @@ class _AskDataState extends State<AskData> {
                     ),
                     SizedBox(height: 20.0),
                     DropdownButtonFormField<String>(
+                      hint: Text('Select City'),
                       value: _currentCity,
                       icon: Icon(Icons.arrow_downward),
                       iconSize: 24,
@@ -112,20 +114,51 @@ class _AskDataState extends State<AskData> {
                       }).toList(),
                     ),
                     SizedBox(height: 20.0),
-                    RaisedButton(
-                      color: Colors.pink[400],
-                      child:
-                          Text('Update', style: TextStyle(color: Colors.white)),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          await DatabaseService(uid: user.uid).updateUserData(
-                              _currentBloodType ?? userData.bloodType,
-                              _currentName ?? userData.name,
-                              _currentCity ?? userData.city,
-                              _currentPhoneNumber ?? userData.phoneNumber);
-                          // Navigator.pop(context);
-                        }
-                      },
+                    // RaisedButton(
+                    //   color: Colors.pink[400],
+                    //   child:
+                    //       Text('Update', style: TextStyle(color: Colors.white)),
+                    //   onPressed: () async {
+                    //     if (_formKey.currentState.validate()) {
+                    //       await DatabaseService(uid: user.uid).updateUserData(
+                    //           _currentBloodType ?? userData.bloodType,
+                    //           _currentName ?? userData.name,
+                    //           _currentCity ?? userData.city,
+                    //           _currentPhoneNumber ?? userData.phoneNumber);
+                    //       // Navigator.pop(context);
+                    //     }
+                    //   },
+                    // ),
+
+                    Container(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(29),
+                        child: FlatButton(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 18, horizontal: 40),
+                          color: Colors.red[700],
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              await DatabaseService(uid: user.uid)
+                                  .updateUserData(
+                                      _currentBloodType ?? userData.bloodType,
+                                      _currentName ?? userData.name,
+                                      _currentCity ?? userData.city,
+                                      _currentPhoneNumber ??
+                                          userData.phoneNumber);
+                              // Navigator.pop(context);
+                            }
+                          },
+                          child: Text(
+                            'Update',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ]),
                 ),
@@ -134,31 +167,114 @@ class _AskDataState extends State<AskData> {
           } else {
             return Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    Text('Congratulations!'),
-                    SizedBox(height: 20.0),
-                    Text('You have already registered as Corona Recovered'),
-                    SizedBox(height: 20.0),
-                    Text('Name: ${userData.name}'),
-                    SizedBox(height: 20.0),
-                    Text('Number: ${userData.phoneNumber}'),
-                    SizedBox(height: 20.0),
-                    Text('Blood Type: ${userData.bloodType}'),
-                    SizedBox(height: 20.0),
-                    Text('City: ${userData.city}'),
-                    SizedBox(height: 20.0),
-                    RaisedButton(
-                      color: Colors.pink[400],
-                      child: Text('Delete your data',
-                          style: TextStyle(color: Colors.white)),
-                      onPressed: () async {
-                        await DatabaseService(uid: user.uid).deleteUserData();
-                      },
+              child: Column(
+                children: <Widget>[
+                  // Align(
+                  //   alignment: Alignment.centerLeft,
+                  //   child: Container(
+                  //     child: Text(
+                  //       'Profile ',
+                  //       style: TextStyle(
+                  //         fontSize: 25,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  SizedBox(height: 40.0),
+                  Center(
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            radius: 50.0,
+                            backgroundColor: Colors.red[600],
+                            child: Text(
+                              '${userData.bloodType}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 40.0,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        // Text('Congratulations!'),
+                        // SizedBox(height: 20.0),
+                        // Text('You are registered as Corona Recovered'),
+                        SizedBox(height: 20.0),
+                        Text(
+                          'Name: ${userData.name}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+                        Text(
+                          'Number: ${userData.phoneNumber}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+                        // Text(
+                        //   'Blood Type: ${userData.bloodType}',
+                        //   textAlign: TextAlign.center,
+                        //   style: TextStyle(
+                        //     fontWeight: FontWeight.bold,
+                        //     fontSize: 20.0,
+                        //   ),
+                        // ),
+                        // SizedBox(height: 20.0),
+                        Text(
+                          'City: ${userData.city}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        SizedBox(height: 50.0),
+                        // RaisedButton(
+                        //   color: Colors.pink[400],
+                        //   child: Text('Delete your data',
+                        //       style: TextStyle(color: Colors.white)),
+                        //   onPressed: () async {
+                        //     await DatabaseService(uid: user.uid).deleteUserData();
+                        //   },
+                        // ),
+                        Container(
+                          // width: 300,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(29),
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 40),
+                              color: Colors.red[700],
+                              onPressed: () async {
+                                await DatabaseService(uid: user.uid)
+                                    .deleteUserData();
+                              },
+                              child: Text(
+                                'Delete my data',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           }

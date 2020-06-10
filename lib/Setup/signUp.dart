@@ -11,13 +11,15 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final AuthService _auth = AuthService();
 
-  String _email, _password;
+  String _email, _password, _confirmPassword;
   final _formKey = GlobalKey<FormState>();
   String error = "";
   bool loading = false;
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return loading
         ? Loader()
         : Scaffold(
@@ -42,7 +44,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       onChanged: (input) {
                         setState(() => _email = input);
                       },
-                      decoration: InputDecoration(labelText: 'Email'),
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        icon: Icon(Icons.email),
+                      ),
                     ),
                     TextFormField(
                       validator: (input) {
@@ -55,25 +60,80 @@ class _SignUpPageState extends State<SignUpPage> {
                       onChanged: (input) {
                         setState(() => _password = input);
                       },
-                      decoration: InputDecoration(labelText: 'Passsword'),
+                      decoration: InputDecoration(
+                        labelText: 'Passsword',
+                        icon: Icon(Icons.lock),
+                      ),
                       obscureText: true,
                     ),
-                    RaisedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          setState(() => loading = true);
-                          dynamic result = await _auth
-                              .registerWithEmailandPassword(_email, _password);
-                          if (result == null) {
-                            setState(
-                                () => error = "Please supply a valid email");
-                            loading = false;
-                          } else {
-                            Navigator.of(context).pop();
-                          }
+                    TextFormField(
+                      validator: (input) {
+                        if (_confirmPassword != _password) {
+                          return 'Passwords do not match';
+                        } else {
+                          return null;
                         }
                       },
-                      child: Text('Sign Up'),
+                      onChanged: (input) {
+                        setState(() => _confirmPassword = input);
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Passsword',
+                        icon: Icon(Icons.lock),
+                      ),
+                      obscureText: true,
+                    ),
+                    SizedBox(height: 20.0),
+                    // RaisedButton(
+                    //   onPressed: () async {
+                    //     if (_formKey.currentState.validate()) {
+                    //       setState(() => loading = true);
+                    //       dynamic result = await _auth
+                    //           .registerWithEmailandPassword(_email, _password);
+                    //       if (result == null) {
+                    //         setState(
+                    //             () => error = "Please supply a valid email");
+                    //         loading = false;
+                    //       } else {
+                    //         Navigator.of(context).pop();
+                    //       }
+                    //     }
+                    //   },
+                    //   child: Text('Sign Up'),
+                    // ),
+                    Container(
+                      width: size.width * 0.6,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(29),
+                        child: FlatButton(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 40),
+                          color: Colors.red[800],
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() => loading = true);
+                              dynamic result =
+                                  await _auth.registerWithEmailandPassword(
+                                      _email, _password);
+                              if (result == null) {
+                                setState(() =>
+                                    error = "Please supply a valid email");
+                                loading = false;
+                              } else {
+                                Navigator.of(context).pop();
+                              }
+                            }
+                          },
+                          child: Text(
+                            'Sign up',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 12.0),
                     Text(

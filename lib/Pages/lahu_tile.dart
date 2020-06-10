@@ -10,13 +10,16 @@ class LahuTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 8.0),
       child: Card(
-        margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+        elevation: 0.0,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(5.0, 10.0, 8.0, 10.0),
           child: ListTile(
             leading: CircleAvatar(
               radius: 25.0,
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.red[600],
               child: Text(
                 '${lahuObject.bloodType}',
                 textAlign: TextAlign.center,
@@ -26,9 +29,13 @@ class LahuTile extends StatelessWidget {
                     color: Colors.white),
               ),
             ),
-            title: Text(lahuObject.name),
-            subtitle: Text(
-                'City is ${lahuObject.city} and phone number is ${lahuObject.phoneNumber}'),
+            title: Text(
+              lahuObject.name,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text('${lahuObject.city} - ${lahuObject.phoneNumber}'),
           ),
         ),
       ),

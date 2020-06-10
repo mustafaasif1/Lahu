@@ -32,6 +32,7 @@ class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    Size size = MediaQuery.of(context).size;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -42,8 +43,17 @@ class _FilterPageState extends State<FilterPage> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: <Widget>[
+                  Text(
+                    'Filter your Searches ',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
                   DropdownButtonFormField<String>(
-                    value: _currentBloodType ?? blood[0],
+                    hint: Text('Select Blood Group'),
+                    value: _currentBloodType,
                     icon: Icon(Icons.arrow_downward),
                     iconSize: 24,
                     elevation: 16,
@@ -61,7 +71,8 @@ class _FilterPageState extends State<FilterPage> {
                   ),
                   SizedBox(height: 20.0),
                   DropdownButtonFormField<String>(
-                    value: _currentCity ?? city[0],
+                    hint: Text('Select City'),
+                    value: _currentCity,
                     icon: Icon(Icons.arrow_downward),
                     iconSize: 24,
                     elevation: 16,
@@ -78,24 +89,57 @@ class _FilterPageState extends State<FilterPage> {
                     }).toList(),
                   ),
                   SizedBox(height: 20.0),
-                  RaisedButton(
-                    color: Colors.pink[400],
-                    child:
-                        Text('Search', style: TextStyle(color: Colors.white)),
-                    onPressed: () async {
-                      print(_currentBloodType ?? blood[0]);
-                      print(_currentCity ?? city[0]);
+                  // RaisedButton(
+                  //   color: Colors.pink[400],
+                  //   child:
+                  //       Text('Search', style: TextStyle(color: Colors.white)),
+                  //   onPressed: () async {
+                  //     // print(_currentBloodType ?? blood[0]);
+                  //     // print(_currentCity ?? city[0]);
 
-                      dynamic resultOtained =
-                          await DatabaseService(uid: user.uid)
-                              .getResults(_currentBloodType, _currentCity);
+                  //     dynamic resultOtained =
+                  //         await DatabaseService(uid: user.uid)
+                  //             .getResults(_currentBloodType, _currentCity);
 
-                      // print(resultOtained[0].name);
+                  //     // print(resultOtained[0].name);
 
-                      setState(() {
-                        _result = resultOtained;
-                      });
-                    },
+                  //     setState(() {
+                  //       _result = resultOtained;
+                  //     });
+                  //   },
+                  // ),
+                  Container(
+                    width: 150,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(29),
+                      child: FlatButton(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                        color: Colors.red[700],
+                        onPressed: () async {
+                          // print(_currentBloodType ?? blood[0]);
+                          // print(_currentCity ?? city[0]);
+
+                          dynamic resultOtained =
+                              await DatabaseService(uid: user.uid)
+                                  .getResults(_currentBloodType, _currentCity);
+
+                          // print(resultOtained[0].name);
+
+                          setState(() {
+                            _result = resultOtained;
+                          });
+                        },
+                        child: Text(
+                          'Search',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

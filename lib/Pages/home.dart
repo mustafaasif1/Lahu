@@ -20,18 +20,18 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    void _showFilterPanel() {
-      showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            height: 500,
-            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-            child: FilterForm(),
-          );
-        },
-      );
-    }
+    // void _showFilterPanel() {
+    //   showModalBottomSheet(
+    //     context: context,
+    //     builder: (context) {
+    //       return Container(
+    //         height: 500,
+    //         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+    //         child: FilterForm(),
+    //       );
+    //     },
+    //   );
+    // }
 
     // void _showAskDataPanel() {
     //   showModalBottomSheet(
@@ -64,7 +64,14 @@ class _HomeState extends State<Home> {
                 )),
               ],
             ),
-            title: Text('Lahu'),
+            title: Text(
+              'Lahu',
+              style: TextStyle(
+                fontSize: 25,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             elevation: 0.0,
             actions: <Widget>[
               // FlatButton.icon(
@@ -73,9 +80,15 @@ class _HomeState extends State<Home> {
               //     icon: Icon(Icons.search),
               //     label: Text('Search')),
               FlatButton.icon(
-                icon: Icon(Icons.person),
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
                 label: Text(
                   'Logout',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
                 onPressed: () async {
                   await _auth.signOut();
