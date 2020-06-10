@@ -4,7 +4,8 @@ import 'package:lahu/Services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:lahu/Pages/lahu_list.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
-import 'package:lahu/Pages/settings_form.dart';
+import 'package:lahu/Pages/filter_form.dart';
+import 'package:lahu/Pages/ask_data.dart';
 
 class Home extends StatefulWidget {
   // const Home({Key key, @required this.user}) : super(key: key);
@@ -18,32 +19,56 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    void _showSettingsPanel() {
+    void _showFilterPanel() {
       showModalBottomSheet(
           context: context,
           builder: (context) {
             return Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-              child: SettingsForm(),
+              child: FilterForm(),
             );
           });
     }
+
+    // void _showAskDataPanel() {
+    //   showModalBottomSheet(
+    //       context: context,
+    //       builder: (context) {
+    //         return Container(
+    //           padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+    //           child: SettingsForm(),
+    //         );
+    //       });
+    // }
 
     return StreamProvider<List<LahuDataObject>>.value(
       value: DatabaseService().lahuData,
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
+          // resizeToAvoidBottomPadding: false,
           appBar: AppBar(
             bottom: TabBar(
               tabs: [
-                Tab(icon: Icon(Icons.directions_car)),
-                Tab(icon: Icon(Icons.directions_transit)),
+                Tab(icon: Icon(Icons.home)),
+                // Tab(
+                //     icon: Icon(
+                //   Icons.filter,
+                // )),
+                Tab(
+                    icon: Icon(
+                  Icons.favorite,
+                )),
               ],
             ),
-            title: Text('Home '),
+            title: Text('Lahu'),
             elevation: 0.0,
             actions: <Widget>[
+              FlatButton.icon(
+                  onPressed: () => _showFilterPanel(),
+                  // onPressed: () {},
+                  icon: Icon(Icons.search),
+                  label: Text('Search')),
               FlatButton.icon(
                 icon: Icon(Icons.person),
                 label: Text('Logout'),
@@ -51,17 +76,13 @@ class _HomeState extends State<Home> {
                   await _auth.signOut();
                 },
               ),
-              FlatButton.icon(
-                  onPressed: () => _showSettingsPanel(),
-                  icon: Icon(Icons.settings),
-                  label: Text('Settings'))
             ],
           ),
           body: TabBarView(
             children: [
               LahuList(),
-              // Icon(Icons.directions_car),
-              Icon(Icons.directions_transit),
+              // FilterPage(),
+              AskData(),
             ],
           ),
         ),

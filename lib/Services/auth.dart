@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lahu/Models/user.dart';
-import 'package:lahu/Services/database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -22,9 +21,9 @@ class AuthService {
           email: email, password: password);
       FirebaseUser user = result.user;
 
-      // create a ew document for the user with the uid
-      await DatabaseService(uid: user.uid)
-          .updateUserData('A+', 'Mustafa Asif', 'Karachi');
+      // create a new document for the user with the uid
+      // await DatabaseService(uid: user.uid)
+      //     .updateUserData('A+', 'Mustafa Asif', 'Karachi');
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -62,13 +61,13 @@ class AuthService {
       assert(user.email != null);
 
       final FirebaseUser currentUser = await _auth.currentUser();
-      try {
-        await _auth.createUserWithEmailAndPassword(
-            email: currentUser.email, password: 'password');
-      } catch (signUpError) {
-        await DatabaseService(uid: user.uid)
-            .updateUserData('A+', 'Mustafa Asif', 'Karachi');
-      }
+      // try {
+      //   await _auth.createUserWithEmailAndPassword(
+      //       email: currentUser.email, password: 'password');
+      // } catch (signUpError) {
+      //   await DatabaseService(uid: user.uid)
+      //       .updateUserData('A+', 'Mustafa Asif', 'Karachi');
+      // }
       return _userFromFirebaseUser(currentUser);
     } catch (e) {
       print(e.toString());

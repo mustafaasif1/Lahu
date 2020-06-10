@@ -77,22 +77,22 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: Text('Sign in'),
                     ),
-                    // SizedBox(height: 12.0),
-                    // RaisedButton(
-                    //   onPressed: () async {
-                    //     setState(() => loading = true);
-                    //     dynamic result = await _auth.testSignInWithGoogle();
-                    //     if (result == null) {
-                    //       setState(() => error =
-                    //           "Could not sign In with those credentials");
-                    //       loading = false;
-                    //     } else {
-                    //       Navigator.of(context).pop();
-                    //     }
-                    //   },
-                    //   child: Text('Login With Google'),
-                    // ),
-                    // SizedBox(height: 12.0),
+                    SizedBox(height: 12.0),
+                    RaisedButton(
+                      onPressed: () async {
+                        setState(() => loading = true);
+                        dynamic result = await _auth.testSignInWithGoogle();
+                        if (result == null) {
+                          setState(() => error =
+                              "Could not sign In with those credentials");
+                          loading = false;
+                        } else {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: Text('Login With Google'),
+                    ),
+                    SizedBox(height: 12.0),
                     Text(
                       error,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),

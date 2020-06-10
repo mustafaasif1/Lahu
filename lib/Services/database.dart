@@ -10,10 +10,21 @@ class DatabaseService {
   final CollectionReference lahuCollection =
       Firestore.instance.collection('user_data');
 
-  Future updateUserData(String bloodType, String name, String location) async {
-    return await lahuCollection
-        .document(uid)
-        .setData({'bloodType': bloodType, 'name': name, 'location': location});
+  Future updateUserData(
+      String bloodType, String name, String city, String phoneNumber) async {
+    return await lahuCollection.document(uid).setData({
+      'bloodType': bloodType,
+      'name': name,
+      'city': city,
+      'phoneNumber': phoneNumber
+    });
+  }
+
+  // Delete the users data
+  Future deleteUserData() async {
+    await lahuCollection.document(uid).delete().catchError((onError) {
+      print(onError);
+    });
   }
 
   // lahu list form snapshot
@@ -21,8 +32,9 @@ class DatabaseService {
     return snapshot.documents.map((doc) {
       return LahuDataObject(
         name: doc.data['name'] ?? '',
-        location: doc.data['location'] ?? '',
+        city: doc.data['city'] ?? '',
         bloodType: doc.data['bloodType'] ?? '',
+        phoneNumber: doc.data['phoneNumber'] ?? '',
       );
     }).toList();
   }
@@ -32,8 +44,9 @@ class DatabaseService {
     return UserData(
       uid: uid,
       name: snapshot.data['name'],
-      location: snapshot.data['location'],
+      city: snapshot.data['city'],
       bloodType: snapshot.data['bloodType'],
+      phoneNumber: snapshot.data['phoneNumber'],
     );
   }
 
@@ -46,3 +59,22 @@ class DatabaseService {
     return lahuCollection.document(uid).snapshots().map(_userDatafromSnapShot);
   }
 }
+
+
+// Query and display the results
+  // Future getResults(String bloodType, String city) async {
+  //   if (bloodType == 'All Bloodtypes' && city == 'All Cities') {
+  //     return await Firestore.instance.collection('user_data').getDocuments();
+  //   } else if (bloodType == 'All Bloodtypes') {
+  //     return await Firestore.instance
+  //         .collection('user_data')
+  //         .where('city', isEqualTo: city)
+  //         .getDocuments();
+  //   } else {
+  //     return await Firestore.instance
+  //         .collection('user_data')
+  //         .where('bloodType', isEqualTo: bloodType)
+  //         .where('city', isEqualTo: city)
+  //         .getDocuments();
+  //   }
+  // }

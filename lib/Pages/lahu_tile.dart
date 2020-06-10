@@ -11,14 +11,25 @@ class LahuTile extends StatelessWidget {
       padding: EdgeInsets.only(top: 8.0),
       child: Card(
         margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 25.0,
-            backgroundColor: Colors.red,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            leading: CircleAvatar(
+              radius: 25.0,
+              backgroundColor: Colors.red,
+              child: Text(
+                '${lahuObject.bloodType}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: Colors.white),
+              ),
+            ),
+            title: Text(lahuObject.name),
+            subtitle: Text(
+                'City is ${lahuObject.city} and phone number is ${lahuObject.phoneNumber}'),
           ),
-          title: Text(lahuObject.name),
-          subtitle: Text(
-              'The blood type is ${lahuObject.bloodType} and location is ${lahuObject.location}'),
         ),
       ),
     );

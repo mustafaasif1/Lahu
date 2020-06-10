@@ -8,7 +8,8 @@ class UserData {
   final String uid;
   final String name;
   final String bloodType;
-  final String location;
+  final String city;
+  final String phoneNumber;
 
-  UserData({this.uid, this.name, this.bloodType, this.location});
+  UserData({this.uid, this.name, this.bloodType, this.city, this.phoneNumber});
 }
