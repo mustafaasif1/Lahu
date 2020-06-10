@@ -133,7 +133,7 @@ class _AskDataState extends State<AskData> {
             );
           } else {
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(20.0),
               child: Center(
                 child: Column(
                   children: <Widget>[

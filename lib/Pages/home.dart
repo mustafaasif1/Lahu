@@ -6,6 +6,7 @@ import 'package:lahu/Pages/lahu_list.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
 import 'package:lahu/Pages/filter_form.dart';
 import 'package:lahu/Pages/ask_data.dart';
+import 'package:lahu/Pages/filter_page.dart';
 
 class Home extends StatefulWidget {
   // const Home({Key key, @required this.user}) : super(key: key);
@@ -21,13 +22,15 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     void _showFilterPanel() {
       showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-              child: FilterForm(),
-            );
-          });
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 500,
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+            child: FilterForm(),
+          );
+        },
+      );
     }
 
     // void _showAskDataPanel() {
@@ -44,17 +47,17 @@ class _HomeState extends State<Home> {
     return StreamProvider<List<LahuDataObject>>.value(
       value: DatabaseService().lahuData,
       child: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           // resizeToAvoidBottomPadding: false,
           appBar: AppBar(
             bottom: TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.home)),
-                // Tab(
-                //     icon: Icon(
-                //   Icons.filter,
-                // )),
+                Tab(
+                    icon: Icon(
+                  Icons.search,
+                )),
                 Tab(
                     icon: Icon(
                   Icons.favorite,
@@ -64,14 +67,16 @@ class _HomeState extends State<Home> {
             title: Text('Lahu'),
             elevation: 0.0,
             actions: <Widget>[
-              FlatButton.icon(
-                  onPressed: () => _showFilterPanel(),
-                  // onPressed: () {},
-                  icon: Icon(Icons.search),
-                  label: Text('Search')),
+              // FlatButton.icon(
+              //     onPressed: () => _showFilterPanel(),
+              //     // onPressed: () {},
+              //     icon: Icon(Icons.search),
+              //     label: Text('Search')),
               FlatButton.icon(
                 icon: Icon(Icons.person),
-                label: Text('Logout'),
+                label: Text(
+                  'Logout',
+                ),
                 onPressed: () async {
                   await _auth.signOut();
                 },
@@ -81,7 +86,7 @@ class _HomeState extends State<Home> {
           body: TabBarView(
             children: [
               LahuList(),
-              // FilterPage(),
+              FilterPage(),
               AskData(),
             ],
           ),

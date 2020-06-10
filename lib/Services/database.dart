@@ -39,6 +39,35 @@ class DatabaseService {
     }).toList();
   }
 
+  // Query and display the results
+  Future<List<LahuDataObject>> getResults(String bloodType, String city) async {
+    if (bloodType == 'All Bloodtypes' && city == 'All Cities') {
+      dynamic result =
+          await Firestore.instance.collection('user_data').getDocuments();
+      return _lahuListFromSnapShot(result);
+    } else if (bloodType == 'All Bloodtypes') {
+      dynamic result = await Firestore.instance
+          .collection('user_data')
+          .where('city', isEqualTo: city)
+          .getDocuments();
+      return _lahuListFromSnapShot(result);
+      
+    } else if (city == 'All Cities') {
+      dynamic result = await Firestore.instance
+          .collection('user_data')
+          .where('bloodType', isEqualTo: bloodType)
+          .getDocuments();
+      return _lahuListFromSnapShot(result);
+    } else {
+      dynamic result = await Firestore.instance
+          .collection('user_data')
+          .where('bloodType', isEqualTo: bloodType)
+          .where('city', isEqualTo: city)
+          .getDocuments();
+      return _lahuListFromSnapShot(result);
+    }
+  }
+
   // userData from snapshot
   UserData _userDatafromSnapShot(DocumentSnapshot snapshot) {
     return UserData(
@@ -59,22 +88,3 @@ class DatabaseService {
     return lahuCollection.document(uid).snapshots().map(_userDatafromSnapShot);
   }
 }
-
-
-// Query and display the results
-  // Future getResults(String bloodType, String city) async {
-  //   if (bloodType == 'All Bloodtypes' && city == 'All Cities') {
-  //     return await Firestore.instance.collection('user_data').getDocuments();
-  //   } else if (bloodType == 'All Bloodtypes') {
-  //     return await Firestore.instance
-  //         .collection('user_data')
-  //         .where('city', isEqualTo: city)
-  //         .getDocuments();
-  //   } else {
-  //     return await Firestore.instance
-  //         .collection('user_data')
-  //         .where('bloodType', isEqualTo: bloodType)
-  //         .where('city', isEqualTo: city)
-  //         .getDocuments();
-  //   }
-  // }

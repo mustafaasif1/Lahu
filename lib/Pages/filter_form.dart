@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lahu/Models/user.dart';
+import 'package:lahu/Services/database.dart';
+import 'package:lahu/Models/lahu_data_class.dart';
+import 'package:lahu/Models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FilterForm extends StatefulWidget {
   @override
@@ -22,6 +26,17 @@ class _FilterFormState extends State<FilterForm> {
   // String _currentName;
   String _currentBloodType;
   String _currentCity;
+
+  List<LahuDataObject> _lahuListFromSnapShot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return LahuDataObject(
+        name: doc.data['name'] ?? '',
+        city: doc.data['city'] ?? '',
+        bloodType: doc.data['bloodType'] ?? '',
+        phoneNumber: doc.data['phoneNumber'] ?? '',
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +89,10 @@ class _FilterFormState extends State<FilterForm> {
             print(_currentBloodType ?? blood[0]);
             print(_currentCity ?? city[0]);
 
-            // dynamic result = await DatabaseService(uid: user.uid)
-            //     .getResults(_currentBloodType, _currentCity);
-            // print(result);
+            dynamic result = await DatabaseService(uid: user.uid)
+                .getResults(_currentBloodType, _currentCity);
+
+            print(result[0].name);
 
             // if (_formKey.currentState.validate()) {
             //   await DatabaseService(uid: user.uid).updateUserData(
