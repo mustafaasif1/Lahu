@@ -14,13 +14,32 @@ class AskData extends StatefulWidget {
 
 class _AskDataState extends State<AskData> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> blood = ['A+', 'A-', 'AB', 'B+', 'O-'];
+  final List<String> blood = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
   final List<String> city = [
     'Karachi',
     'Lahore',
     'Islamabad',
     'Multan',
-    'Hyderabad'
+    'Hyderabad',
+    'Peshawar',
+    'Quetta',
+    'Sukkur',
+    'Faisalabad',
+    'Rawalpindi',
+    'Bahawalpur',
+    'Sardodha',
+    'Sialkot',
+    'Larkana',
+    'Sheikupura',
+    'Rahim Yar Khan',
+    'Jhang',
+    'Dera Ghazi Khan',
+    'Gujrat',
+    'Sahiwal',
+    'Wah Cantonment',
+    'Mardan',
+    'Kasur',
+    'Abbotabad'
   ];
 
   String _currentName;
@@ -31,6 +50,7 @@ class _AskDataState extends State<AskData> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    city.sort();
 
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).userData,
@@ -45,14 +65,26 @@ class _AskDataState extends State<AskData> {
                 child: Form(
                   key: _formKey,
                   child: Column(children: <Widget>[
-                    Center(
-                      child: const Text(
-                          'Are you Corona recovered and want to donate blood?!'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(
+                          'Are you Corona recovered and want to donate blood? Enter your details below',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
-                    Center(
-                      child: const Text('Enter your details below'),
-                    ),
-                    SizedBox(height: 20.0),
+                    // Center(
+                    //   child: const Text(
+                    //       'Are you Corona recovered and want to donate blood?!'),
+                    // ),
+                    // Center(
+                    //   child: const Text('Enter your details below'),
+                    // ),
+                    SizedBox(height: 30.0),
                     TextFormField(
                       validator: (val) =>
                           val.isEmpty ? 'Please enter a name' : null,
@@ -64,8 +96,15 @@ class _AskDataState extends State<AskData> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
-                      validator: (val) =>
-                          val.isEmpty ? 'Please enter your number' : null,
+                      validator: (val) {
+                        if (val.isEmpty) {
+                          return 'Please enter your number';
+                        } else if (val.length != 11) {
+                          return 'Please enter correct number';
+                        } else {
+                          return null;
+                        }
+                      },
                       onChanged: (val) =>
                           setState(() => _currentPhoneNumber = val),
                       decoration: const InputDecoration(
@@ -165,116 +204,118 @@ class _AskDataState extends State<AskData> {
               ),
             );
           } else {
-            return Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: <Widget>[
-                  // Align(
-                  //   alignment: Alignment.centerLeft,
-                  //   child: Container(
-                  //     child: Text(
-                  //       'Profile ',
-                  //       style: TextStyle(
-                  //         fontSize: 25,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  SizedBox(height: 40.0),
-                  Center(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            radius: 50.0,
-                            backgroundColor: Colors.red[600],
-                            child: Text(
-                              '${userData.bloodType}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 40.0,
-                                  color: Colors.white),
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: <Widget>[
+                    // Align(
+                    //   alignment: Alignment.centerLeft,
+                    //   child: Container(
+                    //     child: Text(
+                    //       'Profile ',
+                    //       style: TextStyle(
+                    //         fontSize: 25,
+                    //         fontWeight: FontWeight.bold,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    SizedBox(height: 40.0),
+                    Center(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircleAvatar(
+                              radius: 50.0,
+                              backgroundColor: Colors.red[600],
+                              child: Text(
+                                '${userData.bloodType}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 40.0,
+                                    color: Colors.white),
+                              ),
                             ),
                           ),
-                        ),
-                        // Text('Congratulations!'),
-                        // SizedBox(height: 20.0),
-                        // Text('You are registered as Corona Recovered'),
-                        SizedBox(height: 20.0),
-                        Text(
-                          'Name: ${userData.name}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
+                          // Text('Congratulations!'),
+                          // SizedBox(height: 20.0),
+                          // Text('You are registered as Corona Recovered'),
+                          SizedBox(height: 20.0),
+                          Text(
+                            'Name: ${userData.name}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 20.0),
-                        Text(
-                          'Number: ${userData.phoneNumber}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
+                          SizedBox(height: 20.0),
+                          Text(
+                            'Number: ${userData.phoneNumber}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 20.0),
-                        // Text(
-                        //   'Blood Type: ${userData.bloodType}',
-                        //   textAlign: TextAlign.center,
-                        //   style: TextStyle(
-                        //     fontWeight: FontWeight.bold,
-                        //     fontSize: 20.0,
-                        //   ),
-                        // ),
-                        // SizedBox(height: 20.0),
-                        Text(
-                          'City: ${userData.city}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
+                          SizedBox(height: 20.0),
+                          // Text(
+                          //   'Blood Type: ${userData.bloodType}',
+                          //   textAlign: TextAlign.center,
+                          //   style: TextStyle(
+                          //     fontWeight: FontWeight.bold,
+                          //     fontSize: 20.0,
+                          //   ),
+                          // ),
+                          // SizedBox(height: 20.0),
+                          Text(
+                            'City: ${userData.city}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 50.0),
-                        // RaisedButton(
-                        //   color: Colors.pink[400],
-                        //   child: Text('Delete your data',
-                        //       style: TextStyle(color: Colors.white)),
-                        //   onPressed: () async {
-                        //     await DatabaseService(uid: user.uid).deleteUserData();
-                        //   },
-                        // ),
-                        Container(
-                          // width: 300,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(29),
-                            child: FlatButton(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 40),
-                              color: Colors.red[700],
-                              onPressed: () async {
-                                await DatabaseService(uid: user.uid)
-                                    .deleteUserData();
-                              },
-                              child: Text(
-                                'Delete my data',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                          SizedBox(height: 50.0),
+                          // RaisedButton(
+                          //   color: Colors.pink[400],
+                          //   child: Text('Delete your data',
+                          //       style: TextStyle(color: Colors.white)),
+                          //   onPressed: () async {
+                          //     await DatabaseService(uid: user.uid).deleteUserData();
+                          //   },
+                          // ),
+                          Container(
+                            // width: 300,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(29),
+                              child: FlatButton(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 40),
+                                color: Colors.red[700],
+                                onPressed: () async {
+                                  await DatabaseService(uid: user.uid)
+                                      .deleteUserData();
+                                },
+                                child: Text(
+                                  'Delete my data',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }

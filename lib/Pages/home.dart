@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lahu/Services/auth.dart';
 import 'package:lahu/Services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:lahu/Pages/lahu_list.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
-import 'package:lahu/Pages/filter_form.dart';
 import 'package:lahu/Pages/ask_data.dart';
 import 'package:lahu/Pages/filter_page.dart';
+import 'package:lahu/Pages/all_recovered.dart';
 
 class Home extends StatefulWidget {
   // const Home({Key key, @required this.user}) : super(key: key);
@@ -98,7 +97,7 @@ class _HomeState extends State<Home> {
           ),
           body: TabBarView(
             children: [
-              LahuList(),
+              AllRecovered(),
               FilterPage(),
               AskData(),
             ],
@@ -108,26 +107,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-// return StreamProvider<List<LahuDataObject>>.value(
-//   value: DatabaseService().lahuData,
-//   child: Scaffold(
-//       appBar: AppBar(
-//         title: Text('Home '),
-//         elevation: 0.0,
-//         actions: <Widget>[
-//           FlatButton.icon(
-//             icon: Icon(Icons.person),
-//             label: Text('Logout'),
-//             onPressed: () async {
-//               await _auth.signOut();
-//             },
-//           ),
-//           FlatButton.icon(
-//               onPressed: () => _showSettingsPanel(),
-//               icon: Icon(Icons.settings),
-//               label: Text('Settings'))
-//         ],
-//       ),
-//       body: TabBarDemo()),
-// );
