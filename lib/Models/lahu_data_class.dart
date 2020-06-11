@@ -3,8 +3,10 @@ class LahuDataObject {
   final String city;
   final String bloodType;
   final String phoneNumber;
+  final String gender;
 
-  LahuDataObject({ this.name, this.city, this.bloodType, this.phoneNumber});
+
+  LahuDataObject({ this.name, this.city, this.bloodType, this.phoneNumber, this.gender});
   
 
 }

@@ -11,12 +11,13 @@ class DatabaseService {
       Firestore.instance.collection('user_data');
 
   Future updateUserData(
-      String bloodType, String name, String city, String phoneNumber) async {
+      String bloodType, String name, String city, String phoneNumber, String gender) async {
     return await lahuCollection.document(uid).setData({
       'bloodType': bloodType,
       'name': name,
       'city': city,
-      'phoneNumber': phoneNumber
+      'phoneNumber': phoneNumber,
+      'gender': gender,
     });
   }
 
@@ -35,6 +36,8 @@ class DatabaseService {
         city: doc.data['city'] ?? '',
         bloodType: doc.data['bloodType'] ?? '',
         phoneNumber: doc.data['phoneNumber'] ?? '',
+        gender: doc.data['gender'] ?? '',
+
       );
     }).toList();
   }
@@ -76,6 +79,7 @@ class DatabaseService {
       city: snapshot.data['city'],
       bloodType: snapshot.data['bloodType'],
       phoneNumber: snapshot.data['phoneNumber'],
+      gender: snapshot.data['gender'],
     );
   }
 

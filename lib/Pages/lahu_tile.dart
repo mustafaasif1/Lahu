@@ -35,7 +35,7 @@ class LahuTile extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            subtitle: Text('${lahuObject.city} - ${lahuObject.phoneNumber}'),
+            subtitle: Text('${lahuObject.gender} - ${lahuObject.city} - ${lahuObject.phoneNumber}'),
           ),
         ),
       ),

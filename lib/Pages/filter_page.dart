@@ -3,10 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:lahu/Models/user.dart';
 import 'package:lahu/Services/database.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
-import 'package:lahu/Models/user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lahu/Pages/lahu_tile.dart';
-import 'package:expandable/expandable.dart';
 
 class FilterPage extends StatefulWidget {
   @override

@@ -42,10 +42,17 @@ class _AskDataState extends State<AskData> {
     'Abbotabad'
   ];
 
+  String _currentGender;
   String _currentName;
   String _currentPhoneNumber;
   String _currentBloodType;
   String _currentCity;
+
+  void _handleRadioValueChange1(String value) {
+    setState(() {
+      _currentGender = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +175,50 @@ class _AskDataState extends State<AskData> {
                     //     }
                     //   },
                     // ),
+                    SizedBox(height: 30),
 
+                    Text(
+                      'Gender :',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Radio(
+                          value: 'Male',
+                          groupValue: _currentGender,
+                          onChanged: _handleRadioValueChange1,
+                        ),
+                        Text(
+                          'Male',
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                        Radio(
+                          value: 'Female',
+                          groupValue: _currentGender,
+                          onChanged: _handleRadioValueChange1,
+                        ),
+                        Text(
+                          'Female',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        Radio(
+                          value: 'Other',
+                          groupValue: _currentGender,
+                          onChanged: _handleRadioValueChange1,
+                        ),
+                        Text(
+                          'Other',
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 30),
                     Container(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(29),
@@ -177,14 +227,18 @@ class _AskDataState extends State<AskData> {
                               vertical: 18, horizontal: 40),
                           color: Colors.red[700],
                           onPressed: () async {
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState.validate() &&
+                                _currentCity != null &&
+                                _currentBloodType != null &&
+                                _currentGender != null) {
                               await DatabaseService(uid: user.uid)
                                   .updateUserData(
                                       _currentBloodType ?? userData.bloodType,
                                       _currentName ?? userData.name,
                                       _currentCity ?? userData.city,
                                       _currentPhoneNumber ??
-                                          userData.phoneNumber);
+                                          userData.phoneNumber,
+                                      _currentGender ?? userData.gender);
                               // Navigator.pop(context);
                             }
                           },
@@ -273,6 +327,16 @@ class _AskDataState extends State<AskData> {
                           // SizedBox(height: 20.0),
                           Text(
                             'City: ${userData.city}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          SizedBox(height: 20.0),
+
+                          Text(
+                            'Gender: ${userData.gender}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,

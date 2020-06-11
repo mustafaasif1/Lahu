@@ -15,10 +15,11 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
         appBar: AppBar(title: Text('')),
         body: SingleChildScrollView(
-                  child: Center(
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: 30.0),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Image(
@@ -55,7 +56,8 @@ class _WelcomePageState extends State<WelcomePage> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(29),
                     child: FlatButton(
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                       color: Colors.red[800],
                       onPressed: navigateToSignIn,
                       child: Text(
@@ -102,7 +104,8 @@ class _WelcomePageState extends State<WelcomePage> {
                     highlightElevation: 0,
                     borderSide: BorderSide(color: Colors.grey),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -123,7 +126,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     ),
                   ),
                 ),
- SizedBox(
+                SizedBox(
                   height: 20,
                 ),
                 // RaisedButton(
