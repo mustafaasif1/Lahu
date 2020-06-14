@@ -10,7 +10,8 @@ class FilterPage extends StatefulWidget {
   _FilterPageState createState() => _FilterPageState();
 }
 
-class _FilterPageState extends State<FilterPage> {
+class _FilterPageState extends State<FilterPage>
+    with AutomaticKeepAliveClientMixin<FilterPage> {
   // final _formKey = GlobalKey<FormState>();
   final List<String> blood = [
     'A+',
@@ -35,7 +36,7 @@ class _FilterPageState extends State<FilterPage> {
     'Faisalabad',
     'Rawalpindi',
     'Bahawalpur',
-    'Sardodha',
+    'Sargodha',
     'Sialkot',
     'Larkana',
     'Sheikupura',
@@ -178,4 +179,7 @@ class _FilterPageState extends State<FilterPage> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

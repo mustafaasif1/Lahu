@@ -11,6 +11,10 @@ class AllRecovered extends StatefulWidget {
 }
 
 class _AllRecoveredState extends State<AllRecovered> {
+  bool loading = false;
+
+  
+
   @override
   Widget build(BuildContext context) {
     final lahuData = Provider.of<List<LahuDataObject>>(context) ?? [];
@@ -26,7 +30,7 @@ class _AllRecoveredState extends State<AllRecovered> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    'All Recovered Patients',
+                    'Corona Recovered Patients',
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,

@@ -42,7 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             child: Text(
                               'Sign up ',
                               style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 35,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -69,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       TextFormField(
                         validator: (input) {
                           if (input.length < 6) {
-                            return 'Password has to atleast six characters';
+                            return 'Password has to at least six characters';
                           } else {
                             return null;
                           }

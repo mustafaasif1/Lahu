@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lahu/Shared/loading.dart';
 import 'package:lahu/Services/auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lahu/Setup/password_reset.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -17,6 +18,25 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   String error = "";
+
+  Widget forgotPassword() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Text(
+        'Forgot Password?',
+        style: TextStyle(fontSize: 15),
+      ),
+      FlatButton(
+        child: Text(
+          'Tap here ',
+          style: TextStyle(color: Colors.red[800], fontSize: 18),
+        ),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PasswordReset()));
+        },
+      ),
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +60,11 @@ class _LoginPageState extends State<LoginPage> {
                         alignment: Alignment.centerLeft,
                         child: Container(
                           child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
+                            padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
                             child: Text(
                               'Sign In ',
                               style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 35,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -144,8 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                           setState(() => loading = true);
                           dynamic result = await _auth.testSignInWithGoogle();
                           if (result == null) {
-                            setState(() => error =
-                                "Unable to sign in");
+                            setState(() => error = "Unable to sign in");
                             loading = false;
                           } else {
                             Navigator.of(context).pop();
@@ -184,6 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                         error,
                         style: TextStyle(color: Colors.red, fontSize: 14.0),
                       ),
+                      forgotPassword()
                     ],
                   ),
                 ),

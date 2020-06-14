@@ -27,7 +27,7 @@ class _AskDataState extends State<AskData> {
     'Faisalabad',
     'Rawalpindi',
     'Bahawalpur',
-    'Sardodha',
+    'Sargodha',
     'Sialkot',
     'Larkana',
     'Sheikupura',
@@ -47,11 +47,23 @@ class _AskDataState extends State<AskData> {
   String _currentPhoneNumber;
   String _currentBloodType;
   String _currentCity;
+  bool checkedValue = false;
 
   void _handleRadioValueChange1(String value) {
     setState(() {
       _currentGender = value;
     });
+  }
+
+  String _validateMobile(String value) {
+    String patttern = r'([0-9]{11}$)';
+    RegExp regExp = new RegExp(patttern);
+    if (value.length == 0) {
+      return 'Please enter mobile number';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Please enter valid mobile number';
+    }
+    return null;
   }
 
   @override
@@ -76,7 +88,7 @@ class _AskDataState extends State<AskData> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                         child: Text(
-                          'Are you Corona recovered and want to donate blood? Enter your details below',
+                          'Are you a corona recovered patient and want to donate blood? Enter your details below',
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -103,15 +115,16 @@ class _AskDataState extends State<AskData> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
-                      validator: (val) {
-                        if (val.isEmpty) {
-                          return 'Please enter your number';
-                        } else if (val.length != 11) {
-                          return 'Please enter correct number';
-                        } else {
-                          return null;
-                        }
-                      },
+                      validator: _validateMobile,
+                      // validator: (val) {
+                      //   if (val.isEmpty) {
+                      //     return 'Please enter your number';
+                      //   } else if (val.length != 11) {
+                      //     return 'Please enter correct number';
+                      //   } else {
+                      //     return null;
+                      //   }
+                      // },
                       onChanged: (val) =>
                           setState(() => _currentPhoneNumber = val),
                       decoration: const InputDecoration(
@@ -175,18 +188,18 @@ class _AskDataState extends State<AskData> {
                     //     }
                     //   },
                     // ),
-                    SizedBox(height: 30),
+                    SizedBox(height: 10),
 
-                    Text(
-                      'Gender :',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        Text(
+                          'Gender :',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                          ),
+                        ),
                         Radio(
                           value: 'Male',
                           groupValue: _currentGender,
@@ -219,6 +232,30 @@ class _AskDataState extends State<AskData> {
                       ],
                     ),
                     SizedBox(height: 30),
+                    // Text(
+                    //   'My tapping update, you are agreeing that you are Covid-19 recovered and are giving permission to people to contact you',
+                    //   style: TextStyle(
+                    //     fontWeight: FontWeight.bold,
+                    //     fontSize: 15.0,
+                    //   ),
+                    // ),
+                    CheckboxListTile(
+                      title: Text(
+                        "I agree that I am a corona recovered patient and allow people to contact me. I also agree that I do not have any disease",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      value: checkedValue,
+                      onChanged: (newValue) {
+                        setState(() {
+                          checkedValue = newValue;
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity.trailing,
+                    ),
+                    SizedBox(height: 30),
                     Container(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(29),
@@ -230,7 +267,8 @@ class _AskDataState extends State<AskData> {
                             if (_formKey.currentState.validate() &&
                                 _currentCity != null &&
                                 _currentBloodType != null &&
-                                _currentGender != null) {
+                                _currentGender != null &&
+                                checkedValue == true) {
                               await DatabaseService(uid: user.uid)
                                   .updateUserData(
                                       _currentBloodType ?? userData.bloodType,
@@ -386,33 +424,3 @@ class _AskDataState extends State<AskData> {
         });
   }
 }
-
-// @override
-// Widget build(BuildContext context) {
-//   return Padding(
-//     padding: const EdgeInsets.all(8.0),
-//     child: Center(
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: <Widget>[
-//           Center(
-//             child: const Text(
-//                 'Are you Corona recovered and want to donate blood?!'),
-//           ),
-//           Center(
-//             child: const Text('Enter your details below'),
-//           ),
-//           const SizedBox(height: 30),
-//           RaisedButton(
-//             color: Colors.pink[400],
-//             onPressed: widget.askdata,
-//             child: const Text(
-//               'Press here',
-//               style: TextStyle(color: Colors.white),
-//             ),
-//           ),
-//           const SizedBox(height: 30),
-//         ],
-//       ),
-//     ),
-//   );

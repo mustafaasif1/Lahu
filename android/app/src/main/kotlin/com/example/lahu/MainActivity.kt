@@ -1,4 +1,4 @@
-package com.example.lahu
+package com.application.lahu
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
