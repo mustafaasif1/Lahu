@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lahu/Models/user.dart';
 import 'package:lahu/Services/database.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:intl/intl.dart';
 
 class AskData extends StatefulWidget {
   // final Function askdata;
@@ -42,16 +44,45 @@ class _AskDataState extends State<AskData> {
     'Abbotabad'
   ];
 
-  String _currentGender;
   String _currentName;
   String _currentPhoneNumber;
   String _currentBloodType;
   String _currentCity;
+  String _currentGender;
+  String _currentStatus;
+  DateTime _recoveryDateTime;
+
   bool checkedValue = false;
+  bool _showcalender = false;
+  String _showDate = "Pick a date";
+  DateTime now = DateTime.now();
+
+  bool _checkStatus() {
+    if (_currentStatus == "Corona Recovered") {
+      if (_recoveryDateTime == null) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
 
   void _handleRadioValueChange1(String value) {
     setState(() {
       _currentGender = value;
+    });
+  }
+
+  void _handleCurrentStatusChange(String value) {
+    setState(() {
+      _currentStatus = value;
+      _currentStatus == "Corona Recovered"
+          ? _showcalender = true
+          : _currentStatus == "Normal"
+              ? _showcalender = false
+              : _showcalender = null;
     });
   }
 
@@ -76,7 +107,7 @@ class _AskDataState extends State<AskData> {
         builder: (context, snapshot) {
           UserData userData = snapshot.data;
           if (!snapshot.hasData) {
-            UserData userData = snapshot.data;
+            //UserData userData = snapshot.data;
 
             return SingleChildScrollView(
               child: Padding(
@@ -88,7 +119,7 @@ class _AskDataState extends State<AskData> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                         child: Text(
-                          'Are you a corona recovered patient and want to donate blood? Enter your details below',
+                          'Do you want to donate blood or blood plasma? Enter your details below.',
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -133,6 +164,16 @@ class _AskDataState extends State<AskData> {
                       ),
                       keyboardType: TextInputType.number,
                     ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Text(
+                    //     "Your number will not be displayed without your consent",
+                    //     style: TextStyle(
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 15.0,
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(height: 20.0),
                     DropdownButtonFormField<String>(
                       hint: Text('Select Blood Group'),
@@ -189,17 +230,17 @@ class _AskDataState extends State<AskData> {
                     //   },
                     // ),
                     SizedBox(height: 10),
+                    Text(
+                      'Gender :',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          'Gender :',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
-                        ),
                         Radio(
                           value: 'Male',
                           groupValue: _currentGender,
@@ -232,16 +273,95 @@ class _AskDataState extends State<AskData> {
                       ],
                     ),
                     SizedBox(height: 30),
-                    // Text(
-                    //   'My tapping update, you are agreeing that you are Covid-19 recovered and are giving permission to people to contact you',
-                    //   style: TextStyle(
-                    //     fontWeight: FontWeight.bold,
-                    //     fontSize: 15.0,
-                    //   ),
-                    // ),
+                    Text(
+                      'Current Status :',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Radio(
+                                value: 'Corona Recovered',
+                                groupValue: _currentStatus,
+                                onChanged: _handleCurrentStatusChange,
+                              ),
+                              Text(
+                                'Corona Recovered',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Radio(
+                                    value: 'Normal',
+                                    groupValue: _currentStatus,
+                                    onChanged: _handleCurrentStatusChange,
+                                  ),
+                                  Text(
+                                    'Normal',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Visibility(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "When did you recover: ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2018),
+                                    lastDate: DateTime.now(),
+                                  ).then((date) {
+                                    setState(() {
+                                      _recoveryDateTime = date;
+                                      //print(_dateTime.toString());
+                                      // print("${_recoveryDateTime.toLocal()}"
+                                      //     .split(' ')[0]);
+                                      _showDate = DateFormat('dd-MM-yyyy')
+                                          .format(_recoveryDateTime);
+                                    });
+                                  });
+                                },
+                                child: Text(_showDate,
+                                    style: TextStyle(fontSize: 20)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      visible: _showcalender,
+                    ),
+
                     CheckboxListTile(
                       title: Text(
-                        "I agree that I am a corona recovered patient and allow people to contact me. I also agree that I do not have any disease",
+                        "I allow people to contact me for requesting blood. I agree that I do not have any disease that restricts me in donating blood or blood plasma. I also agree that I would not be selling my blood.",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -268,16 +388,53 @@ class _AskDataState extends State<AskData> {
                                 _currentCity != null &&
                                 _currentBloodType != null &&
                                 _currentGender != null &&
-                                checkedValue == true) {
+                                checkedValue == true &&
+                                _currentStatus != null &&
+                                _checkStatus()) {
+                              if (_currentStatus == "Normal") {
+                                setState(() {
+                                  _recoveryDateTime = DateTime.now();
+                                });
+                              }
                               await DatabaseService(uid: user.uid)
                                   .updateUserData(
-                                      _currentBloodType ?? userData.bloodType,
-                                      _currentName ?? userData.name,
-                                      _currentCity ?? userData.city,
-                                      _currentPhoneNumber ??
-                                          userData.phoneNumber,
-                                      _currentGender ?? userData.gender);
+                                _currentName,
+                                _currentPhoneNumber,
+                                _currentBloodType,
+                                _currentCity,
+                                _currentGender,
+                                _currentStatus,
+                                _recoveryDateTime,
+                                DateTime.now(),
+                              );
                               // Navigator.pop(context);
+
+                              // print(_currentName);
+                              // print(_currentBloodType);
+                              // print(_currentCity);
+                              // print(_currentGender);
+                              // print(_currentStatus);
+                              // print(_recoveryDateTime);
+
+                              // Alert(
+                              //   context: context,
+                              //   //type: AlertType.error,
+                              //   title:
+                              //       "Congratuations you have been registered as a blood donor",
+                              //   buttons: [
+                              //     DialogButton(
+                              //       child: Text(
+                              //         "Okay",
+                              //         style: TextStyle(
+                              //             color: Colors.white, fontSize: 20),
+                              //       ),
+                              //       onPressed: () {
+                              //         Navigator.of(context).pop();
+                              //       },
+                              //       width: 120,
+                              //     ),
+                              //   ],
+                              // ).show();
                             }
                           },
                           child: Text(
@@ -313,10 +470,22 @@ class _AskDataState extends State<AskData> {
                     //     ),
                     //   ),
                     // ),
-                    SizedBox(height: 40.0),
+
                     Center(
                       child: Column(
                         children: <Widget>[
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 30.0),
+                            child: Text(
+                              'You are currently registered as a donor',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CircleAvatar(
@@ -332,9 +501,11 @@ class _AskDataState extends State<AskData> {
                               ),
                             ),
                           ),
+
                           // Text('Congratulations!'),
                           // SizedBox(height: 20.0),
                           // Text('You are registered as Corona Recovered'),
+
                           SizedBox(height: 20.0),
                           Text(
                             'Name: ${userData.name}',
@@ -381,7 +552,32 @@ class _AskDataState extends State<AskData> {
                               fontSize: 20.0,
                             ),
                           ),
-                          SizedBox(height: 50.0),
+                          SizedBox(height: 20.0),
+
+                          Text(
+                            'Status: ${userData.status}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          SizedBox(height: 20.0),
+                          if (userData.status == "Corona Recovered")
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  'Recovery Date: ${DateFormat('dd-MM-yyyy').format(userData.recoveryDate)}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                SizedBox(height: 20.0),
+                              ],
+                            ),
+                          SizedBox(height: 30.0),
                           // RaisedButton(
                           //   color: Colors.pink[400],
                           //   child: Text('Delete your data',

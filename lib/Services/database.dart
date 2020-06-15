@@ -11,13 +11,23 @@ class DatabaseService {
       Firestore.instance.collection('user_data');
 
   Future updateUserData(
-      String bloodType, String name, String city, String phoneNumber, String gender) async {
+      String name,
+      String phoneNumber,
+      String bloodType,
+      String city,
+      String gender,
+      String status,
+      DateTime recoveryDate,
+      DateTime timeStamp) async {
     return await lahuCollection.document(uid).setData({
-      'bloodType': bloodType,
       'name': name,
-      'city': city,
       'phoneNumber': phoneNumber,
+      'bloodType': bloodType,
+      'city': city,
       'gender': gender,
+      'status': status,
+      'recoveryDate': recoveryDate,
+      'timeStamp': timeStamp,
     });
   }
 
@@ -33,11 +43,13 @@ class DatabaseService {
     return snapshot.documents.map((doc) {
       return LahuDataObject(
         name: doc.data['name'] ?? '',
-        city: doc.data['city'] ?? '',
-        bloodType: doc.data['bloodType'] ?? '',
         phoneNumber: doc.data['phoneNumber'] ?? '',
+        bloodType: doc.data['bloodType'] ?? '',
+        city: doc.data['city'] ?? '',
         gender: doc.data['gender'] ?? '',
-
+        status: doc.data['status'] ?? '',
+        recoveryDate: doc.data['recoveryDate'].toDate() ?? null,
+        timeStamp: doc.data['timeStamp'].toDate() ?? null,
       );
     }).toList();
   }
@@ -54,7 +66,6 @@ class DatabaseService {
           .where('city', isEqualTo: city)
           .getDocuments();
       return _lahuListFromSnapShot(result);
-      
     } else if (city == 'All Cities') {
       dynamic result = await Firestore.instance
           .collection('user_data')
@@ -80,14 +91,18 @@ class DatabaseService {
       bloodType: snapshot.data['bloodType'],
       phoneNumber: snapshot.data['phoneNumber'],
       gender: snapshot.data['gender'],
+      status: snapshot.data['status'],
+      recoveryDate: snapshot.data['recoveryDate'].toDate(),
+      timeStamp: snapshot.data['timeStamp'].toDate(),
     );
   }
 
-  // get user doc stream
+  // This stream is for all the users
   Stream<List<LahuDataObject>> get lahuData {
     return lahuCollection.snapshots().map(_lahuListFromSnapShot);
   }
 
+  // This is for one specfic user
   Stream<UserData> get userData {
     return lahuCollection.document(uid).snapshots().map(_userDatafromSnapShot);
   }

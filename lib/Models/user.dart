@@ -7,10 +7,22 @@ class User {
 class UserData {
   final String uid;
   final String name;
+  final String phoneNumber;
   final String bloodType;
   final String city;
-  final String phoneNumber;
   final String gender;
+  final String status;
+  final DateTime recoveryDate;
+  final DateTime timeStamp;
 
-  UserData({this.uid, this.name, this.bloodType, this.city, this.phoneNumber, this.gender});
+  UserData(
+      {this.uid,
+      this.name,
+      this.phoneNumber,
+      this.bloodType,
+      this.city,
+      this.gender,
+      this.status,
+      this.recoveryDate,
+      this.timeStamp});
 }

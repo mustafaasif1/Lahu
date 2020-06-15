@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
-import 'package:lahu/Pages/lahu_tile.dart';
+import 'package:lahu/Pages/filter_tiles.dart';
 
 class LahuList extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _LahuListState extends State<LahuList> {
     return ListView.builder(
       itemCount: lahuData.length,
       itemBuilder: (context, index) {
-        return LahuTile(lahuObject: lahuData[index]);
+        return FilterTile(lahuObject: lahuData[index]);
       },
     );
   }

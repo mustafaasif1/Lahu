@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:intl/intl.dart';
 
-class LahuTile extends StatelessWidget {
+class FilterTile extends StatelessWidget {
   final LahuDataObject lahuObject;
-  LahuTile({this.lahuObject});
+  FilterTile({this.lahuObject});
 
   @override
   Widget build(BuildContext context) {
@@ -77,25 +78,26 @@ class LahuTile extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 4.0),
                   child: Text(
-                    'Required Blood: Normal person',
+                    'Status: ${lahuObject.status}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 16.0),
-                  child: Text(
-                    'Hello my name is mustafa asif my mother is critically ill. Please help her. she is in liaquat national hospital. She is in Liaquat national hosital. Please reach me on my number',
-                    // style: TextStyle(
-                    //   fontSize: 16.0,
-                    // ),
+              if (lahuObject.status == "Corona Recovered")
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 16.0),
+                    child: Text(
+                      'Recovered on: ${DateFormat('dd-MM-yyyy').format(lahuObject.recoveryDate)}',
+                      // style: TextStyle(
+                      //   fontSize: 16.0,
+                      // ),
+                    ),
                   ),
-                ),
-              )
+                )
             ],
           ),
         ),

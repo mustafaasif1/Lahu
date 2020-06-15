@@ -43,6 +43,29 @@ class _HomeState extends State<Home> {
     //       });
     // }
 
+    // TabController _tabController;
+
+    // void initState() {
+    //   super.initState();
+    //   _tabController = TabController(vsync: this, length: 3);
+    // }
+
+    // @override
+    // void dispose() {
+    //   _tabController.dispose();
+    //   super.dispose();
+    // }
+
+    // int _selectedIndex = 0;
+
+    // _onItemTapped(int index) {
+    //   setState(() {
+    //     _selectedIndex = index;
+    //     print(_selectedIndex);
+    //     print(_tabController);
+    //   });
+    // }
+
     return StreamProvider<List<LahuDataObject>>.value(
       value: DatabaseService().lahuData,
       child: DefaultTabController(
@@ -62,6 +85,7 @@ class _HomeState extends State<Home> {
                   Icons.favorite,
                 )),
               ],
+              //currentIndex: _selectedIndex,
             ),
             title: Text(
               'Lahu',
@@ -74,10 +98,18 @@ class _HomeState extends State<Home> {
             elevation: 0.0,
             actions: <Widget>[
               // FlatButton.icon(
-              //     onPressed: () => _showFilterPanel(),
+              //     onPressed: () => {},
               //     // onPressed: () {},
-              //     icon: Icon(Icons.search),
-              //     label: Text('Search')),
+              //     icon: Icon(
+              //       Icons.local_post_office,
+              //       color: Colors.white,
+              //     ),
+              //     label: Text(
+              //       'My Posts',
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //       ),
+              //     )),
               FlatButton.icon(
                 icon: Icon(
                   Icons.person,
