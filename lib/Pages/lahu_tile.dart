@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class LahuTile extends StatelessWidget {
-  final LahuDataObject lahuObject;
+  final LahuRequestObject lahuObject;
   LahuTile({this.lahuObject});
 
   @override
@@ -77,7 +77,7 @@ class LahuTile extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 4.0),
                   child: Text(
-                    'Required Blood: Normal person',
+                    'Required Blood: ${lahuObject.status} person',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -88,12 +88,12 @@ class LahuTile extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 16.0),
-                  child: Text(
-                    'Hello my name is mustafa asif my mother is critically ill. Please help her. she is in liaquat national hospital. She is in Liaquat national hosital. Please reach me on my number',
-                    // style: TextStyle(
-                    //   fontSize: 16.0,
-                    // ),
-                  ),
+                  child: Text('${lahuObject.details}'
+                      // 'Hello my name is mustafa asif my mother is critically ill. Please help her. she is in liaquat national hospital. She is in Liaquat national hosital. Please reach me on my number',
+                      // style: TextStyle(
+                      //   fontSize: 16.0,
+                      // ),
+                      ),
                 ),
               )
             ],

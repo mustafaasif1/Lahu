@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
 import 'package:lahu/Pages/ask_data.dart';
 import 'package:lahu/Pages/filter_page.dart';
-import 'package:lahu/Pages/all_recovered.dart';
+import 'package:lahu/Pages/all_blood_requests.dart';
 
 class Home extends StatefulWidget {
   // const Home({Key key, @required this.user}) : super(key: key);
@@ -66,8 +66,8 @@ class _HomeState extends State<Home> {
     //   });
     // }
 
-    return StreamProvider<List<LahuDataObject>>.value(
-      value: DatabaseService().lahuData,
+    return StreamProvider<List<LahuRequestObject>>.value(
+      value: DatabaseService().requestData,
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -129,7 +129,7 @@ class _HomeState extends State<Home> {
           ),
           body: TabBarView(
             children: [
-              AllRecovered(),
+              AllBloodRequests(),
               FilterPage(),
               AskData(),
             ],

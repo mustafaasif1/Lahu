@@ -4,7 +4,7 @@ class User {
   User({this.uid});
 }
 
-class UserData {
+class AllDonorData {
   final String uid;
   final String name;
   final String phoneNumber;
@@ -15,7 +15,7 @@ class UserData {
   final DateTime recoveryDate;
   final DateTime timeStamp;
 
-  UserData(
+  AllDonorData(
       {this.uid,
       this.name,
       this.phoneNumber,
@@ -24,5 +24,28 @@ class UserData {
       this.gender,
       this.status,
       this.recoveryDate,
+      this.timeStamp});
+}
+
+class AllRequestData {
+  final String uid;
+  final String name;
+  final String phoneNumber;
+  final String details;
+  final String bloodType;
+  final String city;
+  final String gender;
+  final String status;
+  final DateTime timeStamp;
+
+  AllRequestData(
+      {this.uid,
+      this.name,
+      this.phoneNumber,
+      this.details,
+      this.bloodType,
+      this.city,
+      this.gender,
+      this.status,
       this.timeStamp});
 }

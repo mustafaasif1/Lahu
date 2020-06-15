@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:lahu/Models/user.dart';
+import 'package:lahu/Services/database.dart';
+// import 'package:intl/intl.dart';
 
 class RequestDonation extends StatefulWidget {
   @override
@@ -70,6 +74,8 @@ class _RequestDonationState extends State<RequestDonation> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
@@ -90,7 +96,6 @@ class _RequestDonationState extends State<RequestDonation> {
                   ),
                 ),
               ),
-
               SizedBox(height: 30.0),
               TextFormField(
                 validator: (val) => val.isEmpty ? 'Please enter a name' : null,
@@ -120,7 +125,6 @@ class _RequestDonationState extends State<RequestDonation> {
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 20.0),
-
               TextFormField(
                 maxLines: null,
                 validator: (val) => val.isEmpty ? 'Enter Description' : null,
@@ -130,7 +134,6 @@ class _RequestDonationState extends State<RequestDonation> {
                   hintText: 'Enter details',
                 ),
               ),
-
               SizedBox(height: 20.0),
               DropdownButtonFormField<String>(
                 hint: Text('Select Required Blood Group'),
@@ -170,23 +173,6 @@ class _RequestDonationState extends State<RequestDonation> {
                 }).toList(),
               ),
               SizedBox(height: 20.0),
-
-              // RaisedButton(
-              //   color: Colors.pink[400],
-              //   child:
-              //       Text('Update', style: TextStyle(color: Colors.white)),
-              //   onPressed: () async {
-              //     if (_formKey.currentState.validate()) {
-              //       await DatabaseService(uid: user.uid).updateUserData(
-              //           _currentBloodType ?? userData.bloodType,
-              //           _currentName ?? userData.name,
-              //           _currentCity ?? userData.city,
-              //           _currentPhoneNumber ?? userData.phoneNumber);
-              //       // Navigator.pop(context);
-              //     }
-              //   },
-              // ),
-
               SizedBox(height: 20),
               Text(
                 'Status of blood required :',
@@ -239,13 +225,12 @@ class _RequestDonationState extends State<RequestDonation> {
               ),
               SizedBox(height: 10),
               Text(
-                'Gender :',
+                'Gender of patient:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0,
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -280,7 +265,6 @@ class _RequestDonationState extends State<RequestDonation> {
                   ),
                 ],
               ),
-
               SizedBox(height: 20),
               Container(
                 child: ClipRRect(
@@ -293,22 +277,27 @@ class _RequestDonationState extends State<RequestDonation> {
                           _currentCity != null &&
                           _currentBloodType != null &&
                           _currentStatus != null) {
-                        // await DatabaseService(uid: user.uid)
-                        //     .updateUserData(
-                        //         _currentBloodType ?? userData.bloodType,
-                        //         _currentName ?? userData.name,
-                        //         _currentCity ?? userData.city,
-                        //         _currentPhoneNumber ??
-                        //             userData.phoneNumber,
-                        //         _currentGender ?? userData.gender);
-                        // // Navigator.pop(context);
+                        await DatabaseService(uid: user.uid)
+                            .updateRequestDonationData(
+                          _currentName,
+                          _currentPhoneNumber,
+                          _currentDetails,
+                          _currentBloodType,
+                          _currentCity,
+                          _currentGender,
+                          _currentStatus,
+                          DateTime.now(),
+                        );
+                        Navigator.pop(context);
 
-                        print(_currentName);
-                        print(_currentPhoneNumber);
-                        print(_currentBloodType);
-                        print(_currentCity);
-                        print(_currentStatus);
-                        print(_currentDetails);
+                        // print(_currentName);
+                        // print(_currentPhoneNumber);
+                        // print(_currentDetails);
+                        // print(_currentBloodType);
+                        // print(_currentCity);
+                        // print(_currentStatus);
+                        // print(_currentGender);
+                        // print(DateTime.now());
                       }
                     },
                     child: Text(

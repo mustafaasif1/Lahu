@@ -57,7 +57,7 @@ class _FilterPageState extends State<FilterPage>
   // String _currentName;
   String _currentBloodType;
   String _currentCity;
-  String _currentStatus;
+  // String _currentStatus;
   List<LahuDataObject> _result = [];
 
   @override
@@ -75,11 +75,18 @@ class _FilterPageState extends State<FilterPage>
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
                 child: Column(
                   children: <Widget>[
+                    Text(
+                      'Search For Blood Donors ',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     ExpansionTile(
                       title: Text(
-                        'Search For Blood Donors ',
+                        'Press to expand search ',
                         style: TextStyle(
-                          fontSize: 25,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -125,26 +132,26 @@ class _FilterPageState extends State<FilterPage>
                           }).toList(),
                         ),
                         SizedBox(height: 20.0),
-                        DropdownButtonFormField<String>(
-                          hint: Text('Select Status of Donor'),
-                          value: _currentStatus,
-                          icon: Icon(Icons.arrow_downward),
-                          iconSize: 24,
-                          elevation: 16,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              _currentStatus = newValue;
-                            });
-                          },
-                          items: status
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                        SizedBox(height: 20.0),
+                        // DropdownButtonFormField<String>(
+                        //   hint: Text('Select Status of Donor'),
+                        //   value: _currentStatus,
+                        //   icon: Icon(Icons.arrow_downward),
+                        //   iconSize: 24,
+                        //   elevation: 16,
+                        //   onChanged: (String newValue) {
+                        //     setState(() {
+                        //       _currentStatus = newValue;
+                        //     });
+                        //   },
+                        //   items: status
+                        //       .map<DropdownMenuItem<String>>((String value) {
+                        //     return DropdownMenuItem<String>(
+                        //       value: value,
+                        //       child: Text(value),
+                        //     );
+                        //   }).toList(),
+                        // ),
+                        // SizedBox(height: 20.0),
                         Container(
                           width: 150,
                           child: ClipRRect(

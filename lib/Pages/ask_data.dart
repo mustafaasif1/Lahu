@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lahu/Models/user.dart';
 import 'package:lahu/Services/database.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
 
 class AskData extends StatefulWidget {
@@ -102,13 +101,11 @@ class _AskDataState extends State<AskData> {
     final user = Provider.of<User>(context);
     city.sort();
 
-    return StreamBuilder<UserData>(
-        stream: DatabaseService(uid: user.uid).userData,
+    return StreamBuilder<AllDonorData>(
+        stream: DatabaseService(uid: user.uid).donorData1,
         builder: (context, snapshot) {
-          UserData userData = snapshot.data;
+          AllDonorData donorData = snapshot.data;
           if (!snapshot.hasData) {
-            //UserData userData = snapshot.data;
-
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -214,21 +211,7 @@ class _AskDataState extends State<AskData> {
                       }).toList(),
                     ),
                     SizedBox(height: 20.0),
-                    // RaisedButton(
-                    //   color: Colors.pink[400],
-                    //   child:
-                    //       Text('Update', style: TextStyle(color: Colors.white)),
-                    //   onPressed: () async {
-                    //     if (_formKey.currentState.validate()) {
-                    //       await DatabaseService(uid: user.uid).updateUserData(
-                    //           _currentBloodType ?? userData.bloodType,
-                    //           _currentName ?? userData.name,
-                    //           _currentCity ?? userData.city,
-                    //           _currentPhoneNumber ?? userData.phoneNumber);
-                    //       // Navigator.pop(context);
-                    //     }
-                    //   },
-                    // ),
+
                     SizedBox(height: 10),
                     Text(
                       'Gender :',
@@ -320,7 +303,7 @@ class _AskDataState extends State<AskData> {
                     Visibility(
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: Row(
+                        child: Column(
                           children: <Widget>[
                             Text(
                               "When did you recover: ",
@@ -492,7 +475,7 @@ class _AskDataState extends State<AskData> {
                               radius: 50.0,
                               backgroundColor: Colors.red[600],
                               child: Text(
-                                '${userData.bloodType}',
+                                '${donorData.bloodType}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -508,7 +491,7 @@ class _AskDataState extends State<AskData> {
 
                           SizedBox(height: 20.0),
                           Text(
-                            'Name: ${userData.name}',
+                            'Name: ${donorData.name}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -517,25 +500,7 @@ class _AskDataState extends State<AskData> {
                           ),
                           SizedBox(height: 20.0),
                           Text(
-                            'Number: ${userData.phoneNumber}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          SizedBox(height: 20.0),
-                          // Text(
-                          //   'Blood Type: ${userData.bloodType}',
-                          //   textAlign: TextAlign.center,
-                          //   style: TextStyle(
-                          //     fontWeight: FontWeight.bold,
-                          //     fontSize: 20.0,
-                          //   ),
-                          // ),
-                          // SizedBox(height: 20.0),
-                          Text(
-                            'City: ${userData.city}',
+                            'Number: ${donorData.phoneNumber}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -545,7 +510,7 @@ class _AskDataState extends State<AskData> {
                           SizedBox(height: 20.0),
 
                           Text(
-                            'Gender: ${userData.gender}',
+                            'City: ${donorData.city}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -555,7 +520,7 @@ class _AskDataState extends State<AskData> {
                           SizedBox(height: 20.0),
 
                           Text(
-                            'Status: ${userData.status}',
+                            'Gender: ${donorData.gender}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -563,11 +528,21 @@ class _AskDataState extends State<AskData> {
                             ),
                           ),
                           SizedBox(height: 20.0),
-                          if (userData.status == "Corona Recovered")
+
+                          Text(
+                            'Status: ${donorData.status}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          SizedBox(height: 20.0),
+                          if (donorData.status == "Corona Recovered")
                             Column(
                               children: <Widget>[
                                 Text(
-                                  'Recovery Date: ${DateFormat('dd-MM-yyyy').format(userData.recoveryDate)}',
+                                  'Recovery Date: ${DateFormat('dd-MM-yyyy').format(donorData.recoveryDate)}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,

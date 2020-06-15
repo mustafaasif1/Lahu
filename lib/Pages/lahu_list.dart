@@ -11,7 +11,7 @@ class LahuList extends StatefulWidget {
 class _LahuListState extends State<LahuList> {
   @override
   Widget build(BuildContext context) {
-    final lahuData = Provider.of<List<LahuDataObject>>(context) ?? [];
+    final lahuData = Provider.of<List<LahuRequestObject>>(context) ?? [];
     print(lahuData);
     return ListView.builder(
       itemCount: lahuData.length,
