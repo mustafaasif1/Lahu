@@ -76,7 +76,7 @@ class FilterTile extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 4.0),
+                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 2.0),
                   child: Text(
                     'Status: ${lahuObject.status}',
                     style: TextStyle(
@@ -89,7 +89,7 @@ class FilterTile extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 16.0),
+                    padding: const EdgeInsets.fromLTRB(16.0, 2.0, 16.0, 16.0),
                     child: Text(
                       'Recovered on: ${DateFormat('dd-MM-yyyy').format(lahuObject.recoveryDate)}',
                       // style: TextStyle(

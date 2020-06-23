@@ -12,7 +12,7 @@ class _LoaderState extends State<Loader> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: SpinKitRotatingCircle(
+        child: SpinKitDoubleBounce(
           color: Colors.red,
           size: 50.0,
         ),

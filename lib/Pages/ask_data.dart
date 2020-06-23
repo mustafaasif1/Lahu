@@ -19,19 +19,20 @@ class _AskDataState extends State<AskData> {
   final List<String> city = [
     'Karachi',
     'Lahore',
-    'Islamabad',
-    'Multan',
-    'Hyderabad',
-    'Peshawar',
-    'Quetta',
-    'Sukkur',
     'Faisalabad',
     'Rawalpindi',
+    'Gujranwala',
+    'Peshawar',
+    'Multan',
+    'Hyderabad',
+    'Islamabad',
+    'Quetta',
     'Bahawalpur',
     'Sargodha',
     'Sialkot',
+    'Sukkur',
     'Larkana',
-    'Sheikupura',
+    'Sheikhupura',
     'Rahim Yar Khan',
     'Jhang',
     'Dera Ghazi Khan',
@@ -40,7 +41,79 @@ class _AskDataState extends State<AskData> {
     'Wah Cantonment',
     'Mardan',
     'Kasur',
-    'Abbotabad'
+    'Okara',
+    'Mingora',
+    'Nawabshah',
+    'Chiniot',
+    'Kotri',
+    'Kamoke',
+    'Hafizabad',
+    'Sadiqabad',
+    'Mirpur Khas',
+    'Burewala',
+    'Kohat',
+    'Khanewal',
+    'Dera Ismail Khan',
+    'Turbat',
+    'Muzaffarabad',
+    'Abbotabad',
+    'Mandi Bahauddin',
+    'Shikarpur',
+    'Jacobabad',
+    'Jhelum',
+    'Khanpur',
+    'Khairpur',
+    'Khuzdar',
+    'Pakpattan',
+    'Hub',
+    'Daska',
+    'Gojra',
+    'Dadu',
+    'Muridke',
+    'Bahawalnagar',
+    'Samundri',
+    'Tando Allahyar',
+    'Tando Adam',
+    'Jaram Wala',
+    'Chistian',
+    'Attock',
+    'Vehari',
+    'Kot Abdul Malik',
+    'Ferozwala',
+    'Chaklwal',
+    'Gujranwala Cantonment',
+    'Kamalia',
+    'Umerkot',
+    'Ahmedpur East',
+    'Kot Addu',
+    'Wazirabad',
+    'Mansehra',
+    'Layyah',
+    'Swabi',
+    'Chaman',
+    'Taxila',
+    'Nowshera',
+    'Khushab',
+    'Shahdakot',
+    'Mianwali',
+    'Kabal',
+    'Lodhran',
+    'Hasilpur',
+    'Charsadda',
+    'Bhakkur',
+    'Badin',
+    'Arif Wala',
+    'Ghokti',
+    'Sambrial',
+    'Jatoi',
+    'Haroonabad',
+    'Dharki',
+    'Narowal',
+    'Tando Muhammad Khan',
+    'Kamber Ali Khan',
+    'Mirpur Mathelo',
+    'Kandhkot',
+    'Bhalwal'
   ];
 
   String _currentName;
@@ -106,332 +179,341 @@ class _AskDataState extends State<AskData> {
         builder: (context, snapshot) {
           AllDonorData donorData = snapshot.data;
           if (!snapshot.hasData) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(
-                          'Do you want to donate blood or blood plasma? Enter your details below.',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Center(
-                    //   child: const Text(
-                    //       'Are you Corona recovered and want to donate blood?!'),
-                    // ),
-                    // Center(
-                    //   child: const Text('Enter your details below'),
-                    // ),
-                    SizedBox(height: 30.0),
-                    TextFormField(
-                      validator: (val) =>
-                          val.isEmpty ? 'Please enter a name' : null,
-                      onChanged: (val) => setState(() => _currentName = val),
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.person),
-                        hintText: 'Name',
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      validator: _validateMobile,
-                      // validator: (val) {
-                      //   if (val.isEmpty) {
-                      //     return 'Please enter your number';
-                      //   } else if (val.length != 11) {
-                      //     return 'Please enter correct number';
-                      //   } else {
-                      //     return null;
-                      //   }
-                      // },
-                      onChanged: (val) =>
-                          setState(() => _currentPhoneNumber = val),
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.phone),
-                        hintText: 'Phone Number',
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: Text(
-                    //     "Your number will not be displayed without your consent",
-                    //     style: TextStyle(
-                    //       fontWeight: FontWeight.bold,
-                    //       fontSize: 15.0,
-                    //     ),
-                    //   ),
-                    // ),
-                    SizedBox(height: 20.0),
-                    DropdownButtonFormField<String>(
-                      hint: Text('Select Blood Group'),
-                      value: _currentBloodType,
-                      icon: Icon(Icons.arrow_downward),
-                      iconSize: 24,
-                      elevation: 16,
-                      onChanged: (String newValue) {
-                        setState(() {
-                          _currentBloodType = newValue;
-                        });
-                      },
-                      items:
-                          blood.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(height: 20.0),
-                    DropdownButtonFormField<String>(
-                      hint: Text('Select City'),
-                      value: _currentCity,
-                      icon: Icon(Icons.arrow_downward),
-                      iconSize: 24,
-                      elevation: 16,
-                      onChanged: (String newValue) {
-                        setState(() {
-                          _currentCity = newValue;
-                        });
-                      },
-                      items: city.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(height: 20.0),
-
-                    SizedBox(height: 10),
-                    Text(
-                      'Gender :',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Radio(
-                          value: 'Male',
-                          groupValue: _currentGender,
-                          onChanged: _handleRadioValueChange1,
-                        ),
-                        Text(
-                          'Male',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                        Radio(
-                          value: 'Female',
-                          groupValue: _currentGender,
-                          onChanged: _handleRadioValueChange1,
-                        ),
-                        Text(
-                          'Female',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        Radio(
-                          value: 'Other',
-                          groupValue: _currentGender,
-                          onChanged: _handleRadioValueChange1,
-                        ),
-                        Text(
-                          'Other',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    Text(
-                      'Current Status :',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: <Widget>[
-                              Radio(
-                                value: 'Corona Recovered',
-                                groupValue: _currentStatus,
-                                onChanged: _handleCurrentStatusChange,
-                              ),
-                              Text(
-                                'Corona Recovered',
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Radio(
-                                    value: 'Normal',
-                                    groupValue: _currentStatus,
-                                    onChanged: _handleCurrentStatusChange,
-                                  ),
-                                  Text(
-                                    'Normal',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Visibility(
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              "When did you recover: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: RaisedButton(
-                                onPressed: () {
-                                  showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2018),
-                                    lastDate: DateTime.now(),
-                                  ).then((date) {
-                                    setState(() {
-                                      _recoveryDateTime = date;
-                                      //print(_dateTime.toString());
-                                      // print("${_recoveryDateTime.toLocal()}"
-                                      //     .split(' ')[0]);
-                                      _showDate = DateFormat('dd-MM-yyyy')
-                                          .format(_recoveryDateTime);
-                                    });
-                                  });
-                                },
-                                child: Text(_showDate,
-                                    style: TextStyle(fontSize: 20)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      visible: _showcalender,
-                    ),
-
-                    CheckboxListTile(
-                      title: Text(
-                        "I allow people to contact me for requesting blood. I agree that I do not have any disease that restricts me in donating blood or blood plasma. I also agree that I would not be selling my blood.",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                      value: checkedValue,
-                      onChanged: (newValue) {
-                        setState(() {
-                          checkedValue = newValue;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity.trailing,
-                    ),
-                    SizedBox(height: 30),
-                    Container(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(29),
-                        child: FlatButton(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 18, horizontal: 40),
-                          color: Colors.red[700],
-                          onPressed: () async {
-                            if (_formKey.currentState.validate() &&
-                                _currentCity != null &&
-                                _currentBloodType != null &&
-                                _currentGender != null &&
-                                checkedValue == true &&
-                                _currentStatus != null &&
-                                _checkStatus()) {
-                              if (_currentStatus == "Normal") {
-                                setState(() {
-                                  _recoveryDateTime = DateTime.now();
-                                });
-                              }
-                              await DatabaseService(uid: user.uid)
-                                  .updateUserData(
-                                _currentName,
-                                _currentPhoneNumber,
-                                _currentBloodType,
-                                _currentCity,
-                                _currentGender,
-                                _currentStatus,
-                                _recoveryDateTime,
-                                DateTime.now(),
-                              );
-                              // Navigator.pop(context);
-
-                              // print(_currentName);
-                              // print(_currentBloodType);
-                              // print(_currentCity);
-                              // print(_currentGender);
-                              // print(_currentStatus);
-                              // print(_recoveryDateTime);
-
-                              // Alert(
-                              //   context: context,
-                              //   //type: AlertType.error,
-                              //   title:
-                              //       "Congratuations you have been registered as a blood donor",
-                              //   buttons: [
-                              //     DialogButton(
-                              //       child: Text(
-                              //         "Okay",
-                              //         style: TextStyle(
-                              //             color: Colors.white, fontSize: 20),
-                              //       ),
-                              //       onPressed: () {
-                              //         Navigator.of(context).pop();
-                              //       },
-                              //       width: 120,
-                              //     ),
-                              //   ],
-                              // ).show();
-                            }
-                          },
+            return GestureDetector(
+              onTap: () {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus) {
+                  currentFocus.unfocus();
+                }
+              },
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
                           child: Text(
-                            'Update',
+                            'Do you want to donate blood or blood plasma? Enter your details below.',
                             style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.white,
+                              fontSize: 25,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ]),
+                      // Center(
+                      //   child: const Text(
+                      //       'Are you Corona recovered and want to donate blood?!'),
+                      // ),
+                      // Center(
+                      //   child: const Text('Enter your details below'),
+                      // ),
+                      SizedBox(height: 30.0),
+                      TextFormField(
+                        validator: (val) =>
+                            val.isEmpty ? 'Please enter a name' : null,
+                        onChanged: (val) => setState(() => _currentName = val),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.person),
+                          hintText: 'Name',
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        validator: _validateMobile,
+                        // validator: (val) {
+                        //   if (val.isEmpty) {
+                        //     return 'Please enter your number';
+                        //   } else if (val.length != 11) {
+                        //     return 'Please enter correct number';
+                        //   } else {
+                        //     return null;
+                        //   }
+                        // },
+                        onChanged: (val) =>
+                            setState(() => _currentPhoneNumber = val),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.phone),
+                          hintText: 'Phone Number',
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Text(
+                      //     "Your number will not be displayed without your consent",
+                      //     style: TextStyle(
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: 15.0,
+                      //     ),
+                      //   ),
+                      // ),
+                      SizedBox(height: 20.0),
+                      DropdownButtonFormField<String>(
+                        hint: Text('Select Blood Group'),
+                        value: _currentBloodType,
+                        icon: Icon(Icons.arrow_downward),
+                        iconSize: 24,
+                        elevation: 16,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            _currentBloodType = newValue;
+                          });
+                        },
+                        items:
+                            blood.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      SizedBox(height: 20.0),
+                      DropdownButtonFormField<String>(
+                        hint: Text('Select City'),
+                        value: _currentCity,
+                        icon: Icon(Icons.arrow_downward),
+                        iconSize: 24,
+                        elevation: 16,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            _currentCity = newValue;
+                          });
+                        },
+                        items:
+                            city.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      SizedBox(height: 20.0),
+
+                      SizedBox(height: 10),
+                      Text(
+                        'Gender :',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Radio(
+                            value: 'Male',
+                            groupValue: _currentGender,
+                            onChanged: _handleRadioValueChange1,
+                          ),
+                          Text(
+                            'Male',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          Radio(
+                            value: 'Female',
+                            groupValue: _currentGender,
+                            onChanged: _handleRadioValueChange1,
+                          ),
+                          Text(
+                            'Female',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          Radio(
+                            value: 'Other',
+                            groupValue: _currentGender,
+                            onChanged: _handleRadioValueChange1,
+                          ),
+                          Text(
+                            'Other',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Text(
+                        'Current Status :',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: <Widget>[
+                                Radio(
+                                  value: 'Corona Recovered',
+                                  groupValue: _currentStatus,
+                                  onChanged: _handleCurrentStatusChange,
+                                ),
+                                Text(
+                                  'Corona Recovered',
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Radio(
+                                      value: 'Normal',
+                                      groupValue: _currentStatus,
+                                      onChanged: _handleCurrentStatusChange,
+                                    ),
+                                    Text(
+                                      'Normal',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Visibility(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "When did you recover: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2018),
+                                      lastDate: DateTime.now(),
+                                    ).then((date) {
+                                      setState(() {
+                                        _recoveryDateTime = date;
+                                        //print(_dateTime.toString());
+                                        // print("${_recoveryDateTime.toLocal()}"
+                                        //     .split(' ')[0]);
+                                        _showDate = DateFormat('dd-MM-yyyy')
+                                            .format(_recoveryDateTime);
+                                      });
+                                    });
+                                  },
+                                  child: Text(_showDate,
+                                      style: TextStyle(fontSize: 20)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        visible: _showcalender,
+                      ),
+
+                      CheckboxListTile(
+                        title: Text(
+                          "I allow people to contact me for requesting blood. I agree that I do not have any disease that restricts me in donating blood or blood plasma. I do not intend on selling my blood.",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        value: checkedValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            checkedValue = newValue;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.trailing,
+                      ),
+                      SizedBox(height: 30),
+                      Container(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(29),
+                          child: FlatButton(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 18, horizontal: 40),
+                            color: Colors.red[700],
+                            onPressed: () async {
+                              if (_formKey.currentState.validate() &&
+                                  _currentCity != null &&
+                                  _currentBloodType != null &&
+                                  _currentGender != null &&
+                                  checkedValue == true &&
+                                  _currentStatus != null &&
+                                  _checkStatus()) {
+                                if (_currentStatus == "Normal") {
+                                  setState(() {
+                                    _recoveryDateTime = DateTime.now();
+                                  });
+                                }
+                                await DatabaseService(uid: user.uid)
+                                    .updateUserData(
+                                  _currentName,
+                                  _currentPhoneNumber,
+                                  _currentBloodType,
+                                  _currentCity,
+                                  _currentGender,
+                                  _currentStatus,
+                                  _recoveryDateTime,
+                                  DateTime.now(),
+                                );
+                                // Navigator.pop(context);
+
+                                // print(_currentName);
+                                // print(_currentBloodType);
+                                // print(_currentCity);
+                                // print(_currentGender);
+                                // print(_currentStatus);
+                                // print(_recoveryDateTime);
+
+                                // Alert(
+                                //   context: context,
+                                //   //type: AlertType.error,
+                                //   title:
+                                //       "Congratuations you have been registered as a blood donor",
+                                //   buttons: [
+                                //     DialogButton(
+                                //       child: Text(
+                                //         "Okay",
+                                //         style: TextStyle(
+                                //             color: Colors.white, fontSize: 20),
+                                //       ),
+                                //       onPressed: () {
+                                //         Navigator.of(context).pop();
+                                //       },
+                                //       width: 120,
+                                //     ),
+                                //   ],
+                                // ).show();
+                              }
+                            },
+                            child: Text(
+                              'Update',
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ),
                 ),
               ),
             );

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lahu/Pages/blood_banks.dart';
+import 'package:lahu/Pages/my_posts.dart';
+import 'package:lahu/Pages/requests_near_you.dart';
 import 'package:lahu/Services/auth.dart';
 import 'package:lahu/Services/database.dart';
 import 'package:provider/provider.dart';
@@ -66,11 +69,215 @@ class _HomeState extends State<Home> {
     //   });
     // }
 
+    Widget _createHeader() {
+      return DrawerHeader(
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Center(
+          child: CircleAvatar(
+            radius: 70.0,
+            backgroundImage: AssetImage('assets/LahuLogo.jpg'),
+            backgroundColor: Colors.white,
+          ),
+        ),
+      );
+    }
+
+    // Widget _createDrawerItem(
+    //     {IconData icon, String text, GestureTapCallback onTap}) {
+    //   return ListTile(
+    //     title: Padding(
+    //       padding: const EdgeInsets.all(8.0),
+    //       child: Row(
+    //         children: <Widget>[
+    //           Icon(icon),
+    //           Padding(
+    //             padding: EdgeInsets.only(left: 16.0),
+    //             child: Text(text),
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //     onTap: () {},
+    //   );
+    // }
+
     return StreamProvider<List<LahuRequestObject>>.value(
       value: DatabaseService().requestData,
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
+          drawer: Theme(
+            data: Theme.of(context).copyWith(
+              canvasColor: Colors
+                  .white, //This will change the drawer background to blue.
+              //other styles
+            ),
+            child: Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  _createHeader(),
+                  // _createDrawerItem(
+                  //   icon: Icons.local_post_office,
+                  //   text: 'My Posts',
+                  // ),
+
+                  ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.local_post_office,
+                            color: Colors.red[800],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              'My Posts',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyPosts()),
+                      )
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.notifications,
+                            color: Colors.red[800],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              'Requests Near You',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RequestsNearYouPage()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.domain,
+                            color: Colors.red[800],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              'Blood Banks',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BloodBanks()),
+                      );
+                    },
+                  ),
+                  // ListTile(
+                  //   title: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Row(
+                  //       children: <Widget>[
+                  //         Icon(
+                  //           Icons.comment,
+                  //           color: Colors.red[800],
+                  //         ),
+                  //         Padding(
+                  //           padding: EdgeInsets.only(left: 16.0),
+                  //           child: Text(
+                  //             'My Chats',
+                  //             style: TextStyle(fontSize: 16),
+                  //           ),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  //   onTap: () {},
+                  // ),
+                  // ListTile(
+                  //   title: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Row(
+                  //       children: <Widget>[
+                  //         Icon(
+                  //           Icons.public,
+                  //           color: Colors.red[800],
+                  //         ),
+                  //         Padding(
+                  //           padding: EdgeInsets.only(left: 16.0),
+                  //           child: Text(
+                  //             'Tips',
+                  //             style: TextStyle(fontSize: 16),
+                  //           ),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  //   onTap: () {},
+                  // ),
+                  ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.input,
+                            color: Colors.red[800],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              'Logout',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () async {
+                      await _auth.signOut();
+                    },
+                  ),
+                  // _createDrawerItem(
+                  //   icon: Icons.input,
+                  //   text: 'Logout',
+                  // ),
+                ],
+              ),
+            ),
+          ),
           // resizeToAvoidBottomPadding: false,
           appBar: AppBar(
             bottom: TabBar(
@@ -96,36 +303,41 @@ class _HomeState extends State<Home> {
               ),
             ),
             elevation: 0.0,
-            actions: <Widget>[
-              // FlatButton.icon(
-              //     onPressed: () => {},
-              //     // onPressed: () {},
-              //     icon: Icon(
-              //       Icons.local_post_office,
-              //       color: Colors.white,
-              //     ),
-              //     label: Text(
-              //       'My Posts',
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //       ),
-              //     )),
-              FlatButton.icon(
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-                label: Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                onPressed: () async {
-                  await _auth.signOut();
-                },
-              ),
-            ],
+            // actions: <Widget>[
+            //   FlatButton.icon(
+            //       onPressed: () => {
+            //             Navigator.push(
+            //               context,
+            //               MaterialPageRoute(builder: (context) => MyPosts()),
+            //             )
+            //           },
+            //       // onPressed: () {},
+            //       icon: Icon(
+            //         Icons.local_post_office,
+            //         color: Colors.white,
+            //       ),
+            //       label: Text(
+            //         'My Posts',
+            //         style: TextStyle(
+            //           color: Colors.white,
+            //         ),
+            //       )),
+            //   FlatButton.icon(
+            //     icon: Icon(
+            //       Icons.input,
+            //       color: Colors.white,
+            //     ),
+            //     label: Text(
+            //       'Logout',
+            //       style: TextStyle(
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //     onPressed: () async {
+            //       await _auth.signOut();
+            //     },
+            //   ),
+            // ],
           ),
           body: TabBarView(
             children: [

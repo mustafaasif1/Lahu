@@ -20,6 +20,7 @@ class LahuDataObject {
 }
 
 class LahuRequestObject {
+  final String uid;
   final String name;
   final String phoneNumber;
   final String details;
@@ -30,7 +31,8 @@ class LahuRequestObject {
   final DateTime timeStamp;
 
   LahuRequestObject(
-      {this.name,
+      {this.uid,
+      this.name,
       this.phoneNumber,
       this.details,
       this.bloodType,

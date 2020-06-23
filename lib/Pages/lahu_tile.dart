@@ -69,15 +69,27 @@ class LahuTile extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle: Text(
-                    '${lahuObject.gender} - ${lahuObject.city} - ${lahuObject.phoneNumber}'),
+                subtitle:
+                    Text('${lahuObject.city} - ${lahuObject.phoneNumber}'),
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 4.0),
+                  padding: EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 2.0),
                   child: Text(
                     'Required Blood: ${lahuObject.status} person',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 4.0),
+                  child: Text(
+                    'Gender of patient: ${lahuObject.gender}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),

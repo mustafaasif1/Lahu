@@ -41,7 +41,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 30.0, horizontal: 50.0),
                       child: Text(
-                        'One platform to donate and find blood plasma for Covid 19 Patients in Pakistan ',
+                        'One platform to donate and find blood for patients in Pakistan ',
                         style: TextStyle(
                           fontSize: 15,
                         ),

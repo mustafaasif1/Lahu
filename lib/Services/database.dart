@@ -46,7 +46,8 @@ class DatabaseService {
       String gender,
       String status,
       DateTime timeStamp) async {
-    return await lahuRequestCollection.document(uid).setData({
+    return await lahuRequestCollection.add({
+      'uid': uid,
       'name': name,
       'phoneNumber': phoneNumber,
       'details': details,
@@ -58,6 +59,23 @@ class DatabaseService {
     });
   }
 
+  // Check Last post
+  // Future<bool> checkLastPost() async {
+  //   var thirtyMinutesFromNow = DateTime.now().subtract(Duration(minutes: 30));
+  //   print(thirtyMinutesFromNow);
+
+  //   dynamic snapshot = await lahuRequestCollection
+  //       .where('uid', isEqualTo: uid)
+  //       .orderBy('timeStamp', descending: true)
+  //       .getDocuments();
+
+  //   print(snapshot);
+  //   return true;
+    
+  // }
+
+  
+
   // Delete the donor data
   Future deleteUserData() async {
     await lahuCollection.document(uid).delete().catchError((onError) {
@@ -66,11 +84,11 @@ class DatabaseService {
   }
 
   // Delete the request blood data
-  Future deleteRequestBloodData() async {
-    await lahuRequestCollection.document(uid).delete().catchError((onError) {
-      print(onError);
-    });
-  }
+  // Future deleteRequestBloodData() async {
+  //   await lahuRequestCollection.document(uid).delete().catchError((onError) {
+  //     print(onError);
+  //   });
+  // }
 
   // lahu list form snapshot for donor
   List<LahuDataObject> _lahuListFromSnapShot(QuerySnapshot snapshot) {
@@ -93,6 +111,7 @@ class DatabaseService {
       QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return LahuRequestObject(
+        uid: doc.data['uid'] ?? '',
         name: doc.data['name'] ?? '',
         phoneNumber: doc.data['phoneNumber'] ?? '',
         details: doc.data['details'] ?? '',
@@ -133,6 +152,15 @@ class DatabaseService {
     }
   }
 
+  // Get Donation City Requests
+  Future<List<LahuRequestObject>> getDonationCityRequests(String city) async {
+    dynamic result = await Firestore.instance
+        .collection('request_data')
+        .where('city', isEqualTo: city)
+        .getDocuments();
+    return _lahuListFromSnapShotRequestBlood(result);
+  }
+
   // Convert firebase object to AllDonorData object
   AllDonorData _userDatafromSnapShot(DocumentSnapshot snapshot) {
     return AllDonorData(
@@ -151,7 +179,7 @@ class DatabaseService {
   // Convert firebase object to AllDonorData object
   AllRequestData _requestBloodDatafromSnapShot(DocumentSnapshot snapshot) {
     return AllRequestData(
-      uid: uid,
+      uid: snapshot.data['uid'],
       name: snapshot.data['name'],
       phoneNumber: snapshot.data['phoneNumber'],
       details: snapshot.data['details'],
@@ -171,6 +199,7 @@ class DatabaseService {
   // This stream is for all the request Donations
   Stream<List<LahuRequestObject>> get requestData {
     return lahuRequestCollection
+        .orderBy('timeStamp', descending: true)
         .snapshots()
         .map(_lahuListFromSnapShotRequestBlood);
   }
@@ -187,4 +216,34 @@ class DatabaseService {
         .snapshots()
         .map(_requestBloodDatafromSnapShot);
   }
+
+  //This stream is for all the request Donations that a single person posted
+  Stream<List<LahuRequestObject>> get allPostsOfRequestBySinglePerson {
+    return Firestore.instance
+        .collection('request_data')
+        .where('uid', isEqualTo: uid)
+        .orderBy('timeStamp', descending: true)
+        .snapshots()
+        .map(_lahuListFromSnapShotRequestBlood);
+  }
+
+  // Check Last post
+  Stream<List<LahuRequestObject>> get checkLastPost {
+    return lahuRequestCollection
+        .where('uid', isEqualTo: uid)
+        .orderBy('timeStamp', descending: true)
+        .limit(1)
+        .snapshots()
+        .map(_lahuListFromSnapShotRequestBlood);
+  }
+
+  // Future<List<LahuDataObject>> allPostsOfRequestBySinglePerson(String uid) async {
+  //   return Firestore.instance
+  //       .collection('request_data')
+  //       .where('uid', isEqualTo: uid)
+  //       .orderBy('timeStamp', descending: true)
+  //       .snapshots()
+  //       .map(_lahuListFromSnapShotRequestBlood);
+  // }
+
 }

@@ -25,16 +25,35 @@ class _LoginPageState extends State<LoginPage> {
         'Forgot Password?',
         style: TextStyle(fontSize: 15),
       ),
-      FlatButton(
-        child: Text(
-          'Tap here ',
-          style: TextStyle(color: Colors.red[800], fontSize: 18),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: RaisedButton(
+            textColor: Colors.white,
+            color: Colors.red[800],
+            child: Text("Tap Here!"),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PasswordReset()));
+            },
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0),
+            ),
+            elevation: 0,
+          ),
         ),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PasswordReset()));
-        },
       ),
+      // FlatButton(
+      //   child: Text(
+      //     'Tap here ',
+      //     style: TextStyle(color: Colors.red[800], fontSize: 18),
+      //   ),
+      //   onPressed: () {
+      //     Navigator.push(context,
+      //         MaterialPageRoute(builder: (context) => PasswordReset()));
+      //   },
+      // ),
     ]);
   }
 

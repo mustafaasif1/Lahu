@@ -12,6 +12,8 @@ class _LahuListState extends State<LahuList> {
   @override
   Widget build(BuildContext context) {
     final lahuData = Provider.of<List<LahuRequestObject>>(context) ?? [];
+    //final lahuData = [];
+
     print(lahuData);
     return ListView.builder(
       itemCount: lahuData.length,
