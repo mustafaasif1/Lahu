@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lahu/Models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -58,20 +59,29 @@ class AuthService {
       final AuthResult authResult =
           await _auth.signInWithCredential(credential);
       final FirebaseUser user = authResult.user;
-      assert(user.email != null);
-
       final FirebaseUser currentUser = await _auth.currentUser();
-      print('aaaaaaaaaaaaaaaaaaaa');
-      print(currentUser.displayName);
-      print(currentUser.email);
-      
-      // try {
-      //   await _auth.createUserWithEmailAndPassword(
-      //       email: currentUser.email, password: 'password');
-      // } catch (signUpError) {
-      //   await DatabaseService(uid: user.uid)
-      //       .updateUserData('A+', 'Mustafa Asif', 'Karachi');
-      // }
+
+      if (user != null) {
+        // Check is already sign up
+        final QuerySnapshot result = await Firestore.instance
+            .collection('user_data')
+            .where('uid', isEqualTo: user.uid)
+            .getDocuments();
+        final List<DocumentSnapshot> documents = result.documents;
+        if (documents.length == 0) {
+          // Update data to server if new user
+
+          await Firestore.instance
+              .collection('user_data')
+              .document(currentUser.uid)
+              .setData({
+            'uid': currentUser.uid,
+            'name': currentUser.displayName,
+            'email': currentUser.email,
+          });
+        }
+      }
+
       return _userFromFirebaseUser(currentUser);
     } catch (e) {
       print(e.toString());

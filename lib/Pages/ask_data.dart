@@ -545,7 +545,7 @@ class _AskDataState extends State<AskData> {
                             child: Text(
                               'You are currently registered as a donor',
                               style: TextStyle(
-                                fontSize: 25,
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
                               ),
                               textAlign: TextAlign.center,

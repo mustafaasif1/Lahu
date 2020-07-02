@@ -12,7 +12,7 @@ class MyPostTiles extends StatelessWidget {
       child: Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+        margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
         elevation: 0.0,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),

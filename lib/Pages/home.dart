@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lahu/Chats/chatHomepage.dart';
 import 'package:lahu/Pages/blood_banks.dart';
 import 'package:lahu/Pages/my_posts.dart';
 import 'package:lahu/Pages/requests_near_you.dart';
@@ -158,6 +159,33 @@ class _HomeState extends State<Home> {
                       child: Row(
                         children: <Widget>[
                           Icon(
+                            Icons.comment,
+                            color: Colors.red[800],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              'My Chats',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChatHomePage()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
                             Icons.notifications,
                             color: Colors.red[800],
                           ),
@@ -205,27 +233,7 @@ class _HomeState extends State<Home> {
                       );
                     },
                   ),
-                  // ListTile(
-                  //   title: Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: Row(
-                  //       children: <Widget>[
-                  //         Icon(
-                  //           Icons.comment,
-                  //           color: Colors.red[800],
-                  //         ),
-                  //         Padding(
-                  //           padding: EdgeInsets.only(left: 16.0),
-                  //           child: Text(
-                  //             'My Chats',
-                  //             style: TextStyle(fontSize: 16),
-                  //           ),
-                  //         )
-                  //       ],
-                  //     ),
-                  //   ),
-                  //   onTap: () {},
-                  // ),
+                  
                   // ListTile(
                   //   title: Padding(
                   //     padding: const EdgeInsets.all(8.0),

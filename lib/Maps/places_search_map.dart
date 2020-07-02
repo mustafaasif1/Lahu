@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'data/error.dart';
 import 'data/place_response.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 
 class PlacesSearchMapSample extends StatefulWidget {
   final String keyword;
@@ -30,28 +30,31 @@ class _PlacesSearchMapSample extends State<PlacesSearchMapSample> {
   List<Result> places;
   bool searching = true;
   String keyword;
-  //var cameraLocation = LatLng(24.87, 67.03);
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _getLocation();
-  // }
+  GoogleMapController mapController;
 
-  // void _getLocation() async {
-  //   var currentLocation = await Geolocator().getCurrentPosition();
-  //   setState(() {
-  //     cameraLocation =
-  //         LatLng(currentLocation.latitude, currentLocation.longitude);
-  //   });
+  var location = new Location();
 
-  //   print(cameraLocation.longitude);
-  //   print('Helooooooooooooooooooooooooooooooooo');
-  //   latitude = cameraLocation.latitude;
-  //   longitude = cameraLocation.longitude;
-  // }
+  Future firstLocation() async {
+    await location.getLocation().then((LocationData locationData) {
+      //Sets the changing location in the Map Controller
+      LatLng latLng = new LatLng(locationData.latitude, locationData.longitude);
+      CameraUpdate cameraUpdate = CameraUpdate.newLatLngZoom(latLng, 15);
+      mapController.animateCamera(cameraUpdate);
+    });
+  }
 
-  Completer<GoogleMapController> _controller = Completer();
+  _onMapCreated(GoogleMapController controller) {
+    setState(() {
+      mapController = controller;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    firstLocation();
+  }
 
   static final CameraPosition _myLocation = CameraPosition(
       target: LatLng(latitude, longitude), zoom: 6, bearing: 15.0, tilt: 75.0);
@@ -59,67 +62,15 @@ class _PlacesSearchMapSample extends State<PlacesSearchMapSample> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Blood Banks'),
-      //   actions: <Widget>[
-
-      //     FlatButton.icon(
-      //         onPressed: () {
-      //           searchNearby(latitude, longitude);
-      //         },
-      //         // onPressed: () {},
-      //         icon: Icon(
-      //           Icons.location_on,
-      //           color: Colors.white,
-      //         ),
-      //         label: Text(
-      //           'My Location',
-      //           style: TextStyle(
-      //             color: Colors.white,
-      //           ),
-      //         )),
-      //   ],
-      // ),
       body: Stack(
         children: <Widget>[
           GoogleMap(
             myLocationEnabled: true,
             mapType: MapType.normal,
             initialCameraPosition: _myLocation,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
+            onMapCreated: _onMapCreated,
             markers: Set<Marker>.of(markers),
           ),
-          // FlatButton(
-          //   color: Colors.red[800],
-          //   textColor: Colors.white,
-          //   disabledColor: Colors.grey,
-          //   disabledTextColor: Colors.black,
-          //   padding: EdgeInsets.all(8.0),
-          //   splashColor: Colors.blueAccent,
-          //   onPressed: () {},
-          //   child: Text(
-          //     "Search Places",
-          //     style: TextStyle(fontSize: 20.0),
-          //   ),
-          // ),
-          // Align(
-          //   alignment: Alignment.bottomCenter,
-          //   child: Padding(
-          //     padding: const EdgeInsets.symmetric(vertical: 80),
-          //     child: RaisedButton(
-          //       onPressed: () {
-          //         searchNearby(latitude, longitude);
-          //       },
-          //       child: const Text('Search Places!',
-          //           style: TextStyle(fontSize: 20)),
-          //       color: Colors.red[800],
-          //       textColor: Colors.white,
-          //       elevation: 2,
-          //     ),
-          //   ),
-          // ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(

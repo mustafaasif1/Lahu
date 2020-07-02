@@ -24,13 +24,13 @@ class _AllBloodRequestsState extends State<AllBloodRequests> {
               children: <Widget>[
                 SizedBox(height: 10.0),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
                   child: Column(
                     children: <Widget>[
                       Text(
                         'All Blood Donation Requests',
                         style: TextStyle(
-                          fontSize: 25,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

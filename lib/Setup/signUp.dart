@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lahu/Services/database.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lahu/Shared/loading.dart';
 import 'package:lahu/Services/auth.dart';
@@ -11,7 +12,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final AuthService _auth = AuthService();
 
-  String _email, _password, _confirmPassword;
+  String _email, _password, _confirmPassword, _name;
   final _formKey = GlobalKey<FormState>();
   String error = "";
   bool loading = false;
@@ -50,6 +51,22 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       SizedBox(height: 40.0),
+                      TextFormField(
+                        validator: (input) {
+                          if (input.isEmpty) {
+                            return 'Please type your name';
+                          } else {
+                            return null;
+                          }
+                        },
+                        onChanged: (input) {
+                          setState(() => _name = input);
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Name',
+                          icon: Icon(Icons.person),
+                        ),
+                      ),
                       TextFormField(
                         validator: (input) {
                           if (input.isEmpty) {
@@ -132,11 +149,16 @@ class _SignUpPageState extends State<SignUpPage> {
                                 dynamic result =
                                     await _auth.registerWithEmailandPassword(
                                         _email, _password);
+
+                                //print(result);
                                 if (result == null) {
                                   setState(() =>
                                       error = "Please supply a valid email");
                                   loading = false;
                                 } else {
+                                  await DatabaseService().addAllUsersData(
+                                      _name, _email, result.uid);
+
                                   Navigator.of(context).pop();
                                 }
                               }

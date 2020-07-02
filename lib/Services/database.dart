@@ -7,6 +7,10 @@ class DatabaseService {
   DatabaseService({this.uid});
 
   // collection for donor reference
+  final CollectionReference userCollection =
+      Firestore.instance.collection('user_data');
+
+  // collection for donor reference
   final CollectionReference lahuCollection =
       Firestore.instance.collection('donor_data');
 
@@ -56,6 +60,15 @@ class DatabaseService {
       'gender': gender,
       'status': status,
       'timeStamp': timeStamp,
+    });
+  }
+
+  /////////////////
+  Future addAllUsersData(String name, String email, String uid) async {
+    return await userCollection.document(uid).setData({
+      'uid': uid,
+      'name': name,
+      'email': email,
     });
   }
 

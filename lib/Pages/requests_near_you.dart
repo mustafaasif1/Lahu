@@ -132,12 +132,11 @@ class _RequestsNearYouPageState extends State<RequestsNearYouPage> {
                     Text(
                       'Search For Blood Donation Requests In Your City',
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(height: 20.0),
-
                     DropdownButtonFormField<String>(
                       hint: Text('Select City'),
                       value: _currentCity,
@@ -192,7 +191,6 @@ class _RequestsNearYouPageState extends State<RequestsNearYouPage> {
                       ),
                     ),
                     SizedBox(height: 10.0),
-                    
 
                     // RaisedButton(
                     //   color: Colors.pink[400],

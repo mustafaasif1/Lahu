@@ -14,24 +14,24 @@ class GoogleMapsSampleApp extends StatefulWidget {
 
 class _GoogleMapSampleApp extends State<GoogleMapsSampleApp> {
   //var currentLocation = LocationData;
-  var cameraLocation = LatLng(24.87, 67.03);
+  //var cameraLocation = LatLng(24.87, 67.03);
   static String keyword = "Blood Bank";
 
   @override
   void initState() {
     super.initState();
-    _getLocation();
+    //_getLocation();
   }
 
-  void _getLocation() async {
-    var currentLocation = await Geolocator().getCurrentPosition();
-    setState(() {
-      cameraLocation =
-          LatLng(currentLocation.latitude, currentLocation.longitude);
-    });
-    // print(cameraLocation.longitude);
-    // print('Helooooooooooooooooooooooooooooooooo');
-  }
+  // void _getLocation() async {
+  //   var currentLocation = await Geolocator().getCurrentPosition();
+  //   setState(() {
+  //     cameraLocation =
+  //         LatLng(currentLocation.latitude, currentLocation.longitude);
+  //   });
+  //   // print(cameraLocation.longitude);
+  //   // print('Helooooooooooooooooooooooooooooooooo');
+  // }
 
   void updateKeyWord(String newKeyword) {
     print(newKeyword);
