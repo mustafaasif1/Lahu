@@ -96,16 +96,13 @@ class _RequestDonationState extends State<RequestDonation> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 15.0),
-                        child: Center(
-                          child: Text(
-                            'Request For Blood Or Blood Plasma',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          'Request For Blood Or Blood Plasma',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),

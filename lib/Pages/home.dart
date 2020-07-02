@@ -303,41 +303,163 @@ class _HomeState extends State<Home> {
               ),
             ),
             elevation: 0.0,
-            // actions: <Widget>[
-            //   FlatButton.icon(
-            //       onPressed: () => {
-            //             Navigator.push(
-            //               context,
-            //               MaterialPageRoute(builder: (context) => MyPosts()),
-            //             )
-            //           },
-            //       // onPressed: () {},
-            //       icon: Icon(
-            //         Icons.local_post_office,
-            //         color: Colors.white,
-            //       ),
-            //       label: Text(
-            //         'My Posts',
-            //         style: TextStyle(
-            //           color: Colors.white,
-            //         ),
-            //       )),
-            //   FlatButton.icon(
-            //     icon: Icon(
-            //       Icons.input,
-            //       color: Colors.white,
-            //     ),
-            //     label: Text(
-            //       'Logout',
-            //       style: TextStyle(
-            //         color: Colors.white,
-            //       ),
-            //     ),
-            //     onPressed: () async {
-            //       await _auth.signOut();
-            //     },
-            //   ),
-            // ],
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: IconButton(
+                  iconSize: 25,
+                  icon: Icon(Icons.info_outline),
+                  tooltip: 'Information',
+                  onPressed: () {
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.8,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 35.0, horizontal: 20.0),
+                            child: ListView(
+                              children: <Widget>[
+                                Center(
+                                    child: Text(
+                                  'Blood Compatibility',
+                                  style: TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                SizedBox(height:10),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: DataTable(
+                                    columns: const <DataColumn>[
+                                      DataColumn(
+                                        label: Text(
+                                          'Blood Group',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: Text(
+                                          'Donate To',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: Text(
+                                          'Accept From',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic),
+                                        ),
+                                      ),
+                                    ],
+                                    rows: const <DataRow>[
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(Text('A+')),
+                                          DataCell(Text('A+, AB+')),
+                                          DataCell(Text('A+, A-, O+, O-')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(Text('A-')),
+                                          DataCell(Text('A+, A-, AB+, AB-')),
+                                          DataCell(Text('A-, O-')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(Text('B+')),
+                                          DataCell(Text('B+, AB+')),
+                                          DataCell(Text('B+, B-, O+, O-')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(Text('B-')),
+                                          DataCell(Text('B+, B-, AB+, AB-')),
+                                          DataCell(Text('B-, O-')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(Text('AB+')),
+                                          DataCell(Text('AB+')),
+                                          DataCell(Text('Anyone')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(Text('AB-')),
+                                          DataCell(Text('AB+, AB-')),
+                                          DataCell(Text('AB-, A-, B-, O-')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(Text('O+')),
+                                          DataCell(Text('A+, B+, O+, AB+')),
+                                          DataCell(Text('O+, O-')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(Text('O-')),
+                                          DataCell(Text('Anyone')),
+                                          DataCell(Text('O-')),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                ),
+              ),
+
+              // FlatButton.icon(
+              //     onPressed: () => {
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(builder: (context) => MyPosts()),
+              //           )
+              //         },
+              //     // onPressed: () {},
+              //     icon: Icon(
+              //       Icons.local_post_office,
+              //       color: Colors.white,
+              //     ),
+              //     label: Text(
+              //       'My Posts',
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //       ),
+              //     )),
+              // FlatButton.icon(
+              //   icon: Icon(
+              //     Icons.input,
+              //     color: Colors.white,
+              //   ),
+              //   label: Text(
+              //     'Logout',
+              //     style: TextStyle(
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              //   onPressed: () async {
+              //     await _auth.signOut();
+              //   },
+              // ),
+            ],
           ),
           body: TabBarView(
             children: [

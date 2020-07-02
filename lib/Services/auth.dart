@@ -61,6 +61,10 @@ class AuthService {
       assert(user.email != null);
 
       final FirebaseUser currentUser = await _auth.currentUser();
+      print('aaaaaaaaaaaaaaaaaaaa');
+      print(currentUser.displayName);
+      print(currentUser.email);
+      
       // try {
       //   await _auth.createUserWithEmailAndPassword(
       //       email: currentUser.email, password: 'password');

@@ -148,23 +148,27 @@ class _FilterPageState extends State<FilterPage>
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      'Search For Blood Donors ',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(0,0,0,10),
+                    //   child: Text(
+                    //     'Search For Blood Donors ',
+                    //     style: TextStyle(
+                    //       fontSize: 25,
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    // ),
                     ExpansionTile(
+                      initiallyExpanded: true,
                       title: Text(
-                        'Press to expand search ',
+                        'Search For Blood Donors ',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       children: <Widget>[
-                        SizedBox(height: 20.0),
+                        //SizedBox(height: 20.0),
                         DropdownButtonFormField<String>(
                           hint: Text('Select Blood Group'),
                           value: _currentBloodType,

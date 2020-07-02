@@ -71,10 +71,8 @@ class DatabaseService {
 
   //   print(snapshot);
   //   return true;
-    
-  // }
 
-  
+  // }
 
   // Delete the donor data
   Future deleteUserData() async {
