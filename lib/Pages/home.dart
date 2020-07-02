@@ -165,7 +165,7 @@ class _HomeState extends State<Home> {
                           Padding(
                             padding: EdgeInsets.only(left: 16.0),
                             child: Text(
-                              'My Chats',
+                              'Chat Room',
                               style: TextStyle(fontSize: 16),
                             ),
                           )
@@ -175,8 +175,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => ChatHomePage()),
+                        MaterialPageRoute(builder: (context) => ChatHomePage()),
                       );
                     },
                   ),
@@ -233,7 +232,7 @@ class _HomeState extends State<Home> {
                       );
                     },
                   ),
-                  
+
                   // ListTile(
                   //   title: Padding(
                   //     padding: const EdgeInsets.all(8.0),
@@ -339,7 +338,7 @@ class _HomeState extends State<Home> {
                                       fontSize: 23,
                                       fontWeight: FontWeight.bold),
                                 )),
-                                SizedBox(height:10),
+                                SizedBox(height: 10),
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: DataTable(
