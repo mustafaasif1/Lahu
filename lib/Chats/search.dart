@@ -31,13 +31,16 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  createChatRoomAndStartConversation(String userName) {
-    if (userName != Constants.myName) {
-      String chatRoomID = getChatRoomId(userName, Constants.myName);
+  createChatRoomAndStartConversation(String userName, String userEmail) {
+    if (userEmail != Constants.myEmail) {
+      String chatRoomID = getChatRoomId(userEmail, Constants.myEmail);
 
-      List<String> users = [userName, Constants.myName];
+      List<String> users = [userEmail, Constants.myEmail];
+      List<String> usersName = [userName, Constants.myName];
+
       Map<String, dynamic> chatRoomMap = {
         "users": users,
+        "usersName": usersName,
         "chatroomId": chatRoomID,
       };
 
@@ -45,7 +48,7 @@ class _SearchScreenState extends State<SearchScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ConversationScreen(chatRoomID)));
+              builder: (context) => ConversationScreen(chatRoomID, userName)));
     } else {
       print("You can not message yourself");
     }
@@ -63,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Spacer(),
           GestureDetector(
             onTap: () {
-              createChatRoomAndStartConversation(userName);
+              createChatRoomAndStartConversation(userName, userEmail);
             },
             child: Container(
               decoration: BoxDecoration(

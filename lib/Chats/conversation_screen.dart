@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lahu/Chats/chat_database.dart';
 import 'package:lahu/Helper/constants.dart';
+import 'package:intl/intl.dart';
 
 class ConversationScreen extends StatefulWidget {
   final String chatRoomId;
-  ConversationScreen(this.chatRoomId);
+  final String otherName;
+  ConversationScreen(this.chatRoomId, this.otherName);
 
   @override
   _ConversationScreenState createState() => _ConversationScreenState();
@@ -26,7 +28,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     return MessageTile(
                         snapshot.data.documents[index].data["message"],
                         snapshot.data.documents[index].data["sendBy"] ==
-                            Constants.myName);
+                            Constants.myEmail,
+                        snapshot.data.documents[index].data["time"].toDate());
                   })
               : Container();
         });
@@ -36,8 +39,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
     if (myController.text.isNotEmpty) {
       Map<String, dynamic> messageMap = {
         "message": myController.text,
-        "sendBy": Constants.myName,
-        "time": DateTime.now().millisecondsSinceEpoch,
+        "sendBy": Constants.myEmail,
+        "time": DateTime.now(),
       };
       DatabaseMethods().addConversationMessage(widget.chatRoomId, messageMap);
       myController.text = "";
@@ -57,7 +60,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Chat')),
+      appBar: AppBar(title: Text(widget.otherName)),
       body: Container(
           child: Stack(
         children: <Widget>[
@@ -101,7 +104,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
 class MessageTile extends StatelessWidget {
   final String message;
   final bool isSentByMe;
-  MessageTile(this.message, this.isSentByMe);
+  final DateTime timestamp;
+  MessageTile(this.message, this.isSentByMe, this.timestamp);
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +117,15 @@ class MessageTile extends StatelessWidget {
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
               color: isSentByMe ? Colors.red[800] : Colors.blue,
-              borderRadius: BorderRadius.circular(20)),
-          child: Text(message,
-              style: TextStyle(fontSize: 17, color: Colors.white))),
+              borderRadius: BorderRadius.circular(10)),
+          child: Column(
+            children: <Widget>[
+              Text(message,
+                  style: TextStyle(fontSize: 17, color: Colors.white)),
+              Text(DateFormat('dd-MM-yy – kk:mm').format(timestamp),
+                  style: TextStyle(fontSize: 10, color: Colors.grey[300]))
+            ],
+          )),
     );
   }
 }

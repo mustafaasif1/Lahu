@@ -31,6 +31,7 @@ class _HomeState extends State<Home> {
 
   getUserInfo() async {
     Constants.myName = await HelperFunctions.getUserNameSharedPreference();
+    Constants.myEmail = await HelperFunctions.getUserEmailSharedPreference();
   }
 
   @override

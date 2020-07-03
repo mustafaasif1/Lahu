@@ -27,8 +27,9 @@ class _ChatHomePageState extends State<ChatHomePage> {
                       snapshot.data.documents[index].data["chatroomId"]
                           .toString()
                           .replaceAll("_", "")
-                          .replaceAll(Constants.myName, ""),
-                      snapshot.data.documents[index].data["chatroomId"]);
+                          .replaceAll(Constants.myEmail, ""),
+                      snapshot.data.documents[index].data["chatroomId"],
+                      snapshot.data.documents[index].data["usersName"][0]);
                 })
             : Container();
       },
@@ -43,7 +44,8 @@ class _ChatHomePageState extends State<ChatHomePage> {
 
   getUserInfo() async {
     Constants.myName = await HelperFunctions.getUserNameSharedPreference();
-    databaseMethods.getChatRooms(Constants.myName).then((val) {
+    Constants.myEmail = await HelperFunctions.getUserEmailSharedPreference();
+    databaseMethods.getChatRooms(Constants.myEmail).then((val) {
       setState(() {
         chatRoomStream = val;
       });
@@ -92,31 +94,76 @@ class _ChatHomePageState extends State<ChatHomePage> {
 
 class ChatRoomsTile extends StatelessWidget {
   final String userName;
+  final String userEmail;
   final String chatRoom;
 
-  ChatRoomsTile(this.userName, this.chatRoom);
+  ChatRoomsTile(this.userEmail, this.chatRoom, this.userName);
 
   @override
   Widget build(BuildContext context) {
+    // return GestureDetector(
+    //   onTap: () {
+    //     Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) => ConversationScreen(chatRoom)));
+    //   },
+    //   child: Padding(
+    //     padding: const EdgeInsets.all(12.0),
+    //     child: Container(
+    //       padding: const EdgeInsets.all(12.0),
+    //       color: Colors.red,
+    //       child: Row(
+    //         children: <Widget>[
+    //           Column(
+    //             children: <Widget>[
+    //               Padding(
+    //                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
+    //                 child: Text(
+    //                   userName,
+    //                   style: TextStyle(color: Colors.white),
+    //                 ),
+    //               ),
+    //               Padding(
+    //                 padding: const EdgeInsets.all(12.0),
+    //                 child: Text(
+    //                   userEmail,
+    //                   style: TextStyle(color: Colors.white),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ConversationScreen(chatRoom)));
+                builder: (context) =>
+                    ConversationScreen(chatRoom, this.userName)));
       },
-      child: Container(
-          child: Row(
-        children: <Widget>[
-          SizedBox(
-            width: 8,
+      child: ListTile(
+        title: Text(userName),
+        subtitle: Text(userEmail),
+        leading: CircleAvatar(
+          radius: 20.0,
+          backgroundColor: Colors.red[600],
+          child: Text(
+            '10',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                color: Colors.white),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(userName),
-          ),
-        ],
-      )),
+        ),
+        trailing: Icon(Icons.arrow_right),
+      ),
     );
   }
 }
