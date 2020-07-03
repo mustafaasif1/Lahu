@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lahu/Chats/chat_database.dart';
+import 'package:lahu/Helper/helper_functions.dart';
 import 'package:lahu/Shared/loading.dart';
 import 'package:lahu/Services/auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -18,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   String error = "";
+  QuerySnapshot snapshotUserInfo;
 
   Widget forgotPassword() {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
@@ -146,6 +150,20 @@ class _LoginPageState extends State<LoginPage> {
                                       "Could not sign in with these credentials");
                                   loading = false;
                                 } else {
+                                  DatabaseMethods()
+                                      .getUserByEmail(_email)
+                                      .then((val) {
+                                    setState(() {
+                                      snapshotUserInfo = val;
+                                    });
+                                    HelperFunctions
+                                        .saveUserNameSharedPreference(
+                                            snapshotUserInfo
+                                                .documents[0].data["name"]);
+                                  });
+
+                                  HelperFunctions.saveUserEmailSharedPreference(
+                                      _email);
                                   Navigator.of(context).pop();
                                 }
                               }

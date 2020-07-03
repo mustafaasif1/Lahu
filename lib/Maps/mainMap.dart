@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'places_search_map.dart';
 import 'search_filter.dart';
 //import 'package:location/location.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:geolocator/geolocator.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GoogleMapsSampleApp extends StatefulWidget {
   @override

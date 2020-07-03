@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lahu/Helper/helper_functions.dart';
 import 'package:lahu/Models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -60,6 +61,9 @@ class AuthService {
           await _auth.signInWithCredential(credential);
       final FirebaseUser user = authResult.user;
       final FirebaseUser currentUser = await _auth.currentUser();
+
+      HelperFunctions.saveUserNameSharedPreference(currentUser.displayName);
+      HelperFunctions.saveUserEmailSharedPreference(currentUser.email);
 
       if (user != null) {
         // Check is already sign up

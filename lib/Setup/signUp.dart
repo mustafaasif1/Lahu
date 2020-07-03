@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lahu/Helper/helper_functions.dart';
 import 'package:lahu/Services/database.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lahu/Shared/loading.dart';
@@ -156,6 +157,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                       error = "Please supply a valid email");
                                   loading = false;
                                 } else {
+                                  HelperFunctions.saveUserNameSharedPreference(_name);
+                                  HelperFunctions.saveUserEmailSharedPreference(_email);
                                   await DatabaseService().addAllUsersData(
                                       _name, _email, result.uid);
 

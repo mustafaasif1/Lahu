@@ -313,65 +313,69 @@ class _RequestDonationState extends State<RequestDonation> {
                                   _currentCity != null &&
                                   _currentBloodType != null &&
                                   _currentStatus != null) {
-                                // bool answer =
+                                await DatabaseService(uid: user.uid)
+                                    .updateRequestDonationData(
+                                  _currentName,
+                                  _currentPhoneNumber,
+                                  _currentDetails,
+                                  _currentBloodType,
+                                  _currentCity,
+                                  _currentGender,
+                                  _currentStatus,
+                                  DateTime.now(),
+                                );
+                                Navigator.pop(context);
+
+                                // if (!snapshot.hasData) {
+                                //   print("No data");
+                                //   await DatabaseService(uid: user.uid)
+                                //       .updateRequestDonationData(
+                                //     _currentName,
+                                //     _currentPhoneNumber,
+                                //     _currentDetails,
+                                //     _currentBloodType,
+                                //     _currentCity,
+                                //     _currentGender,
+                                //     _currentStatus,
+                                //     DateTime.now(),
+                                //   );
+                                //   Navigator.pop(context);
+                                // } else {
+                                //   print(snapshot.data);
+                                //   print("Yes data");
+                                //   print(snapshot.data[0].timeStamp);
+                                //   var thirtyMinutesFromNow = DateTime.now()
+                                //       .subtract(Duration(minutes: 30));
+
+                                //   if (thirtyMinutesFromNow
+                                //       .isAfter(snapshot.data[0].timeStamp)) {
                                 //     await DatabaseService(uid: user.uid)
-                                //         .checkLastPost();
+                                //         .updateRequestDonationData(
+                                //       _currentName,
+                                //       _currentPhoneNumber,
+                                //       _currentDetails,
+                                //       _currentBloodType,
+                                //       _currentCity,
+                                //       _currentGender,
+                                //       _currentStatus,
+                                //       DateTime.now(),
+                                //     );
+                                //     Navigator.pop(context);
+                                //   } else {
+                                //     DateTime dateTimeCreatedAt =
+                                //         thirtyMinutesFromNow;
 
-                                // print(answer);
-                                // print(
-                                //     'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-
-                                //bool allowPost = false;
-                                if (!snapshot.hasData) {
-                                  print("No data");
-                                  await DatabaseService(uid: user.uid)
-                                      .updateRequestDonationData(
-                                    _currentName,
-                                    _currentPhoneNumber,
-                                    _currentDetails,
-                                    _currentBloodType,
-                                    _currentCity,
-                                    _currentGender,
-                                    _currentStatus,
-                                    DateTime.now(),
-                                  );
-                                  Navigator.pop(context);
-                                } else {
-                                  //print(snapshot.data);
-                                  print("Yes data");
-                                  print(snapshot.data[0].timeStamp);
-                                  var thirtyMinutesFromNow = DateTime.now()
-                                      .subtract(Duration(minutes: 30));
-
-                                  if (thirtyMinutesFromNow
-                                      .isAfter(snapshot.data[0].timeStamp)) {
-                                    await DatabaseService(uid: user.uid)
-                                        .updateRequestDonationData(
-                                      _currentName,
-                                      _currentPhoneNumber,
-                                      _currentDetails,
-                                      _currentBloodType,
-                                      _currentCity,
-                                      _currentGender,
-                                      _currentStatus,
-                                      DateTime.now(),
-                                    );
-                                    Navigator.pop(context);
-                                  } else {
-                                    DateTime dateTimeCreatedAt =
-                                        thirtyMinutesFromNow;
-
-                                    DateTime dateTimeNow =
-                                        snapshot.data[0].timeStamp;
-                                    final differenceInDays = dateTimeNow
-                                        .difference(dateTimeCreatedAt)
-                                        .inMinutes;
-                                    setState(() {
-                                      _error =
-                                          'You have recently posted within 30 minutes. Please wait $differenceInDays minutes before trying to post again';
-                                    });
-                                  }
-                                }
+                                //     DateTime dateTimeNow =
+                                //         snapshot.data[0].timeStamp;
+                                //     final differenceInDays = dateTimeNow
+                                //         .difference(dateTimeCreatedAt)
+                                //         .inMinutes;
+                                //     setState(() {
+                                //       _error =
+                                //           'You have recently posted within 30 minutes. Please wait $differenceInDays minutes before trying to post again';
+                                //     });
+                                //   }
+                                // }
                               }
                             },
                             child: Text(

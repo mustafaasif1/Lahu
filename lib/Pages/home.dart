@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lahu/Chats/chatHomepage.dart';
+import 'package:lahu/Helper/constants.dart';
+import 'package:lahu/Helper/helper_functions.dart';
 import 'package:lahu/Pages/blood_banks.dart';
 import 'package:lahu/Pages/my_posts.dart';
 import 'package:lahu/Pages/requests_near_you.dart';
@@ -20,6 +22,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
+
+  @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+
+  getUserInfo() async {
+    Constants.myName = await HelperFunctions.getUserNameSharedPreference();
+  }
 
   @override
   Widget build(BuildContext context) {
