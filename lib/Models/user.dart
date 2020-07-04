@@ -37,6 +37,8 @@ class AllRequestData {
   final String gender;
   final String status;
   final DateTime timeStamp;
+  final String myName;
+  final String myEmail;
 
   AllRequestData(
       {this.uid,
@@ -47,5 +49,7 @@ class AllRequestData {
       this.city,
       this.gender,
       this.status,
-      this.timeStamp});
+      this.timeStamp,
+      this.myName,
+      this.myEmail});
 }

@@ -29,6 +29,8 @@ class LahuRequestObject {
   final String gender;
   final String status;
   final DateTime timeStamp;
+  final String myName;
+  final String myEmail;
 
   LahuRequestObject(
       {this.uid,
@@ -39,5 +41,7 @@ class LahuRequestObject {
       this.city,
       this.gender,
       this.status,
-      this.timeStamp});
+      this.timeStamp,
+      this.myName,
+      this.myEmail});
 }

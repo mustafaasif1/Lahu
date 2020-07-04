@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lahu/Helper/constants.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
 import 'package:provider/provider.dart';
 import 'package:lahu/Models/user.dart';
@@ -323,6 +324,8 @@ class _RequestDonationState extends State<RequestDonation> {
                                   _currentGender,
                                   _currentStatus,
                                   DateTime.now(),
+                                  Constants.myName,
+                                  Constants.myEmail,
                                 );
                                 Navigator.pop(context);
 

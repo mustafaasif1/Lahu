@@ -1,11 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:lahu/Chats/chat_database.dart';
+import 'package:lahu/Chats/conversation_screen.dart';
+import 'package:lahu/Chats/search.dart';
+import 'package:lahu/Helper/constants.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class LahuTile extends StatelessWidget {
+class LahuTile extends StatefulWidget {
   final LahuRequestObject lahuObject;
   LahuTile({this.lahuObject});
+
+  @override
+  _LahuTileState createState() => _LahuTileState();
+}
+
+class _LahuTileState extends State<LahuTile> {
+  createChatRoomAndStartConversation(String userName, String userEmail) {
+    if (userEmail != Constants.myEmail) {
+      String chatRoomID = getChatRoomId(userEmail, Constants.myEmail);
+
+      List<String> users = [userEmail, Constants.myEmail];
+      List<String> usersName = [userName, Constants.myName];
+
+      Map<String, dynamic> chatRoomMap = {
+        "users": users,
+        "usersName": usersName,
+        "chatroomId": chatRoomID,
+      };
+
+      Map<String, dynamic> unseenMessages = {
+        userName.toString(): 0,
+        Constants.myName.toString(): 0
+      };
+
+      DatabaseMethods().createChatRoom(chatRoomID, chatRoomMap, unseenMessages);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ConversationScreen(chatRoomID, userName, Constants.myName)));
+    } else {
+      print("You can not message yourself");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +61,7 @@ class LahuTile extends StatelessWidget {
             children: <Widget>[
               ListTile(
                 trailing: Wrap(
-                  spacing: 12, // space between two icons
+                  spacing: -4, // space between two icons
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.phone),
@@ -32,7 +70,7 @@ class LahuTile extends StatelessWidget {
                         context: context,
                         //type: AlertType.error,
                         title:
-                            "Are you sure you want to call ${lahuObject.name}?",
+                            "Are you sure you want to call ${widget.lahuObject.name}?",
                         buttons: [
                           DialogButton(
                             child: Text(
@@ -41,21 +79,51 @@ class LahuTile extends StatelessWidget {
                                   TextStyle(color: Colors.white, fontSize: 20),
                             ),
                             onPressed: () {
-                              String number = "tel://${lahuObject.phoneNumber}";
+                              String number =
+                                  "tel://${widget.lahuObject.phoneNumber}";
                               launch(number);
                             },
                             width: 120,
                           ),
                         ],
                       ).show(),
-                    ), // icon-1
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.message),
+                      tooltip: 'Chat with this person',
+                      //onPressed: () {createChatRoomAndStartConversation(widget.lahuObject.myName, widget.lahuObject.myEmail);},
+                      onPressed: () => Alert(
+                        context: context,
+                        //type: AlertType.error,
+                        title:
+                            "Are you sure you want to message ${widget.lahuObject.name}?",
+                        buttons: [
+                          DialogButton(
+                            child: Text(
+                              "Yes",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              createChatRoomAndStartConversation(
+                                  widget.lahuObject.myName,
+                                  widget.lahuObject.myEmail);
+                            },
+                            width: 120,
+                          ),
+                        ],
+                      ).show(),
+                    ),
+                    // icon-2
+                    // icon-1
                   ],
                 ),
                 leading: CircleAvatar(
                   radius: 35.0,
                   backgroundColor: Colors.red[600],
                   child: Text(
-                    '${lahuObject.bloodType}',
+                    '${widget.lahuObject.bloodType}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -64,20 +132,20 @@ class LahuTile extends StatelessWidget {
                   ),
                 ),
                 title: Text(
-                  lahuObject.name,
+                  widget.lahuObject.name,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle:
-                    Text('${lahuObject.city} - ${lahuObject.phoneNumber}'),
+                subtitle: Text(
+                    '${widget.lahuObject.city} - ${widget.lahuObject.phoneNumber}'),
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 2.0),
                   child: Text(
-                    'Required Blood: ${lahuObject.status} person',
+                    'Required Blood: ${widget.lahuObject.status} person',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -89,7 +157,7 @@ class LahuTile extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 4.0),
                   child: Text(
-                    'Gender of patient: ${lahuObject.gender}',
+                    'Gender of patient: ${widget.lahuObject.gender}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -100,7 +168,7 @@ class LahuTile extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 6.0, 16.0, 16.0),
-                  child: Text('${lahuObject.details}'
+                  child: Text('${widget.lahuObject.details}'
                       // 'Hello my name is mustafa asif my mother is critically ill. Please help her. she is in liaquat national hospital. She is in Liaquat national hosital. Please reach me on my number',
                       // style: TextStyle(
                       //   fontSize: 16.0,

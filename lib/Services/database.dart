@@ -40,8 +40,6 @@ class DatabaseService {
     });
   }
 
-  
-
   // Update request blood data
   Future updateRequestDonationData(
       String name,
@@ -51,7 +49,9 @@ class DatabaseService {
       String city,
       String gender,
       String status,
-      DateTime timeStamp) async {
+      DateTime timeStamp,
+      String myName,
+      String myEmail) async {
     return await lahuRequestCollection.add({
       'uid': uid,
       'name': name,
@@ -62,6 +62,8 @@ class DatabaseService {
       'gender': gender,
       'status': status,
       'timeStamp': timeStamp,
+      'myName': myName,
+      'myEmail': myEmail
     });
   }
 
@@ -133,6 +135,8 @@ class DatabaseService {
         gender: doc.data['gender'] ?? '',
         status: doc.data['status'] ?? '',
         timeStamp: doc.data['timeStamp'].toDate() ?? null,
+        myName: doc.data['myName'] ?? '',
+        myEmail: doc.data['myEmail'] ?? '',
       );
     }).toList();
   }
@@ -201,6 +205,8 @@ class DatabaseService {
       gender: snapshot.data['gender'],
       status: snapshot.data['status'],
       timeStamp: snapshot.data['timeStamp'].toDate(),
+      myName: snapshot.data['myName'],
+      myEmail: snapshot.data['myEmail'],
     );
   }
 
