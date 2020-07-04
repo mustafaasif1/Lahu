@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lahu/Chats/chat_database.dart';
 import 'package:lahu/Helper/constants.dart';
@@ -6,7 +9,8 @@ import 'package:intl/intl.dart';
 class ConversationScreen extends StatefulWidget {
   final String chatRoomId;
   final String otherName;
-  ConversationScreen(this.chatRoomId, this.otherName);
+  final String myName;
+  ConversationScreen(this.chatRoomId, this.otherName, this.myName);
 
   @override
   _ConversationScreenState createState() => _ConversationScreenState();
@@ -16,6 +20,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   final myController = TextEditingController();
 
   Stream chatMessagesStream;
+  ScrollController _scrollController = new ScrollController();
 
   Widget chatMessageList() {
     return StreamBuilder(
@@ -23,6 +28,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
         builder: (context, snapshot) {
           return snapshot.hasData
               ? ListView.builder(
+                  controller: _scrollController,
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index) {
                     return MessageTile(
@@ -43,6 +49,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
         "time": DateTime.now(),
       };
       DatabaseMethods().addConversationMessage(widget.chatRoomId, messageMap);
+      Firestore.instance
+          .collection('unseen_messages')
+          .document(widget.chatRoomId)
+          .updateData({widget.otherName: FieldValue.increment(1)});
       myController.text = "";
     }
   }
@@ -54,11 +64,17 @@ class _ConversationScreenState extends State<ConversationScreen> {
         chatMessagesStream = val;
       });
     });
+    Firestore.instance
+        .collection('unseen_messages')
+        .document(widget.chatRoomId)
+        .updateData({Constants.myName.toString(): 0});
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.otherName)),
       body: Container(
@@ -122,7 +138,7 @@ class MessageTile extends StatelessWidget {
             children: <Widget>[
               Text(message,
                   style: TextStyle(fontSize: 17, color: Colors.white)),
-              Text(DateFormat('dd-MM-yy – kk:mm').format(timestamp),
+              Text(DateFormat('dd-MM-yy – kk:mm:yy').format(timestamp),
                   style: TextStyle(fontSize: 10, color: Colors.grey[300]))
             ],
           )),

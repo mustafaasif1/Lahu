@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lahu/Chats/chat_database.dart';
 import 'package:lahu/Chats/conversation_screen.dart';
@@ -24,12 +25,14 @@ class _ChatHomePageState extends State<ChatHomePage> {
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
                   return ChatRoomsTile(
-                      snapshot.data.documents[index].data["chatroomId"]
-                          .toString()
-                          .replaceAll("_", "")
-                          .replaceAll(Constants.myEmail, ""),
-                      snapshot.data.documents[index].data["chatroomId"],
-                      snapshot.data.documents[index].data["usersName"][0]);
+                    snapshot.data.documents[index].data["chatroomId"]
+                        .toString()
+                        .replaceAll("_", "")
+                        .replaceAll(Constants.myEmail, ""),
+                    snapshot.data.documents[index].data["chatroomId"],
+                    snapshot.data.documents[index].data["usersName"][1],
+                    snapshot.data.documents[index].data["usersName"][0],
+                  );
                 })
             : Container();
       },
@@ -92,78 +95,95 @@ class _ChatHomePageState extends State<ChatHomePage> {
   }
 }
 
-class ChatRoomsTile extends StatelessWidget {
+class ChatRoomsTile extends StatefulWidget {
   final String userName;
   final String userEmail;
   final String chatRoom;
+  final String myName;
 
-  ChatRoomsTile(this.userEmail, this.chatRoom, this.userName);
+  ChatRoomsTile(this.userEmail, this.chatRoom, this.userName, this.myName);
+
+  @override
+  _ChatRoomsTileState createState() => _ChatRoomsTileState();
+}
+
+class _ChatRoomsTileState extends State<ChatRoomsTile> {
+  //int unseenMessages;
+
+  @override
+  void initState() {
+    //getUnseenMessages();
+    super.initState();
+  }
+
+  // getUnseenMessages() async {
+  //   await Firestore.instance
+  //       .collection('unseen_messages')
+  //       .document(widget.chatRoom)
+  //       .get()
+  //       .then((value) {
+  //     setState(() {
+  //       unseenMessages = value.data[Constants.myName];
+
+  //       print(unseenMessages);
+  //     });
+
+  //     //print(value.data["unseenMessages"][Constants.myEmail]);
+  //   });
+  // }
+
+//   Widget build(BuildContext context) {
+//   return StreamBuilder(
+//       stream: Firestore.instance
+//         .collection('unseen_messages')
+//         .document(widget.chatRoom).snapshots(),
+//       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+//         if (!snapshot.hasData) {
+//           return Text("Loading");
+//         }
+//         var userDocument = snapshot.data;
+//         return Text(userDocument["name"]);
+//       }
+//   );
+// }
 
   @override
   Widget build(BuildContext context) {
-    // return GestureDetector(
-    //   onTap: () {
-    //     Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (context) => ConversationScreen(chatRoom)));
-    //   },
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(12.0),
-    //     child: Container(
-    //       padding: const EdgeInsets.all(12.0),
-    //       color: Colors.red,
-    //       child: Row(
-    //         children: <Widget>[
-    //           Column(
-    //             children: <Widget>[
-    //               Padding(
-    //                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
-    //                 child: Text(
-    //                   userName,
-    //                   style: TextStyle(color: Colors.white),
-    //                 ),
-    //               ),
-    //               Padding(
-    //                 padding: const EdgeInsets.all(12.0),
-    //                 child: Text(
-    //                   userEmail,
-    //                   style: TextStyle(color: Colors.white),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    ConversationScreen(chatRoom, this.userName)));
-      },
-      child: ListTile(
-        title: Text(userName),
-        subtitle: Text(userEmail),
-        leading: CircleAvatar(
-          radius: 20.0,
-          backgroundColor: Colors.red[600],
-          child: Text(
-            '10',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-                color: Colors.white),
-          ),
-        ),
-        trailing: Icon(Icons.arrow_right),
-      ),
-    );
+    return StreamBuilder(
+        stream: Firestore.instance
+            .collection('unseen_messages')
+            .document(widget.chatRoom)
+            .snapshots(),
+        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          var userDocument = snapshot.data;
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ConversationScreen(widget.chatRoom,
+                      this.widget.userName, this.widget.myName),
+                ),
+              );
+            },
+            child: ListTile(
+              title: Text(widget.userEmail),
+              leading: CircleAvatar(
+                  radius: 20.0,
+                  backgroundColor: Colors.red[600],
+                  child: snapshot.hasData
+                      ? Text(
+                          userDocument[Constants.myName].toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Colors.white),
+                        )
+                      : null),
+              trailing: Icon(Icons.arrow_right),
+            ),
+          );
+        });
   }
 }

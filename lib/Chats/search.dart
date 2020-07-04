@@ -44,11 +44,16 @@ class _SearchScreenState extends State<SearchScreen> {
         "chatroomId": chatRoomID,
       };
 
-      DatabaseMethods().createChatRoom(chatRoomID, chatRoomMap);
+      Map<String, dynamic> unseenMessages = {
+        userName.toString(): 0,
+        Constants.myName.toString(): 0
+      };
+
+      DatabaseMethods().createChatRoom(chatRoomID, chatRoomMap, unseenMessages);
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ConversationScreen(chatRoomID, userName)));
+              builder: (context) => ConversationScreen(chatRoomID, userName, Constants.myName)));
     } else {
       print("You can not message yourself");
     }

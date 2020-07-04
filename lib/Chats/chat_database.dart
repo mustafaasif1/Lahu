@@ -15,11 +15,19 @@ class DatabaseMethods {
         .getDocuments();
   }
 
-  createChatRoom(String chatRoomId, chatRoomMap) async {
+  createChatRoom(String chatRoomId, chatRoomMap, unseenMessages) async {
     await Firestore.instance
         .collection("chat_room")
         .document(chatRoomId)
         .setData(chatRoomMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+
+    await Firestore.instance
+        .collection("unseen_messages")
+        .document(chatRoomId)
+        .setData(unseenMessages)
         .catchError((e) {
       print(e.toString());
     });
@@ -35,7 +43,7 @@ class DatabaseMethods {
   }
 
   getConversationMessage(String chatRoomID) async {
-    return await Firestore.instance
+    return  Firestore.instance
         .collection("chat_room")
         .document(chatRoomID)
         .collection("chat")
@@ -44,9 +52,38 @@ class DatabaseMethods {
   }
 
   getChatRooms(String userEmail) async {
-    return await Firestore.instance
+    return  Firestore.instance
         .collection("chat_room")
         .where("users", arrayContains: userEmail)
         .snapshots();
   }
+
+  getAllTheUnseenMessagesOfSpecificChatID(
+      String chatRoomID, String myEmail, String othersEmail) async {
+    dynamic result = Firestore.instance
+        .collection('unseen_messages')
+        .document(chatRoomID)
+        .get()
+        .then((value) {
+      print(value.data["unseenMessages"][myEmail]);
+    });
+
+    
+   
+
+    
+    return result;
+  }
+
+//     dynamic result = Firestore.instance
+//         .collection("unseen_messages")
+//         .document(chatRoomID)
+//         .snapshots();
+
+//         result.get() => then(function(document) {
+//     print(document("name"));
+// });
+
+//     return result;
+
 }
