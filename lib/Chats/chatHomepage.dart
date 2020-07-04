@@ -52,7 +52,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
   getUserInfo() async {
     Constants.myName = await HelperFunctions.getUserNameSharedPreference();
     Constants.myEmail = await HelperFunctions.getUserEmailSharedPreference();
-    databaseMethods.getChatRooms(Constants.myEmail).then((val) {
+    await databaseMethods.getChatRooms(Constants.myEmail).then((val) {
       setState(() {
         chatRoomStream = val;
       });

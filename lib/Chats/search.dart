@@ -24,7 +24,7 @@ class _SearchScreenState extends State<SearchScreen> {
   QuerySnapshot searchSnapShot;
 
   initiateSearch() {
-    DatabaseMethods().getUserByUsername(myController.text).then((val) {
+    DatabaseMethods().getUserByEmail(myController.text).then((val) {
       setState(() {
         searchSnapShot = val;
       });
@@ -53,7 +53,8 @@ class _SearchScreenState extends State<SearchScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ConversationScreen(chatRoomID, userName, Constants.myName)));
+              builder: (context) =>
+                  ConversationScreen(chatRoomID, userName, Constants.myName)));
     } else {
       print("You can not message yourself");
     }
@@ -119,7 +120,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 Expanded(
                   child: TextField(
                     controller: myController,
-                    decoration: InputDecoration(hintText: "Search username"),
+                    decoration: InputDecoration(hintText: "Search User Email"),
                   ),
                 ),
                 IconButton(

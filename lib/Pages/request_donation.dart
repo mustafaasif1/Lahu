@@ -286,7 +286,7 @@ class _RequestDonationState extends State<RequestDonation> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: Text(
-                          'Please Note: You can post only once every 30 minutes',
+                          'Please Note: You can post only once every 15 minutes',
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -314,71 +314,76 @@ class _RequestDonationState extends State<RequestDonation> {
                                   _currentCity != null &&
                                   _currentBloodType != null &&
                                   _currentStatus != null) {
-                                await DatabaseService(uid: user.uid)
-                                    .updateRequestDonationData(
-                                  _currentName,
-                                  _currentPhoneNumber,
-                                  _currentDetails,
-                                  _currentBloodType,
-                                  _currentCity,
-                                  _currentGender,
-                                  _currentStatus,
-                                  DateTime.now(),
-                                  Constants.myName,
-                                  Constants.myEmail,
-                                );
-                                Navigator.pop(context);
+                                // await DatabaseService(uid: user.uid)
+                                //     .updateRequestDonationData(
+                                //   _currentName,
+                                //   _currentPhoneNumber,
+                                //   _currentDetails,
+                                //   _currentBloodType,
+                                //   _currentCity,
+                                //   _currentGender,
+                                //   _currentStatus,
+                                //   DateTime.now(),
+                                //   Constants.myName,
+                                //   Constants.myEmail,
+                                // );
+                                // Navigator.pop(context);
 
-                                // if (!snapshot.hasData) {
-                                //   print("No data");
-                                //   await DatabaseService(uid: user.uid)
-                                //       .updateRequestDonationData(
-                                //     _currentName,
-                                //     _currentPhoneNumber,
-                                //     _currentDetails,
-                                //     _currentBloodType,
-                                //     _currentCity,
-                                //     _currentGender,
-                                //     _currentStatus,
-                                //     DateTime.now(),
-                                //   );
-                                //   Navigator.pop(context);
-                                // } else {
-                                //   print(snapshot.data);
-                                //   print("Yes data");
-                                //   print(snapshot.data[0].timeStamp);
-                                //   var thirtyMinutesFromNow = DateTime.now()
-                                //       .subtract(Duration(minutes: 30));
+                                if (!snapshot.hasData ||
+                                    snapshot.data.isEmpty) {
+                                  print("No data");
+                                  await DatabaseService(uid: user.uid)
+                                      .updateRequestDonationData(
+                                    _currentName,
+                                    _currentPhoneNumber,
+                                    _currentDetails,
+                                    _currentBloodType,
+                                    _currentCity,
+                                    _currentGender,
+                                    _currentStatus,
+                                    DateTime.now(),
+                                    Constants.myName,
+                                    Constants.myEmail,
+                                  );
+                                  Navigator.pop(context);
+                                } else {
+                                  print(snapshot.data);
+                                  print("Yes data");
+                                  print(snapshot.data[0].timeStamp);
+                                  var thirtyMinutesFromNow = DateTime.now()
+                                      .subtract(Duration(minutes: 15));
 
-                                //   if (thirtyMinutesFromNow
-                                //       .isAfter(snapshot.data[0].timeStamp)) {
-                                //     await DatabaseService(uid: user.uid)
-                                //         .updateRequestDonationData(
-                                //       _currentName,
-                                //       _currentPhoneNumber,
-                                //       _currentDetails,
-                                //       _currentBloodType,
-                                //       _currentCity,
-                                //       _currentGender,
-                                //       _currentStatus,
-                                //       DateTime.now(),
-                                //     );
-                                //     Navigator.pop(context);
-                                //   } else {
-                                //     DateTime dateTimeCreatedAt =
-                                //         thirtyMinutesFromNow;
+                                  if (thirtyMinutesFromNow
+                                      .isAfter(snapshot.data[0].timeStamp)) {
+                                    await DatabaseService(uid: user.uid)
+                                        .updateRequestDonationData(
+                                      _currentName,
+                                      _currentPhoneNumber,
+                                      _currentDetails,
+                                      _currentBloodType,
+                                      _currentCity,
+                                      _currentGender,
+                                      _currentStatus,
+                                      DateTime.now(),
+                                      Constants.myName,
+                                      Constants.myEmail,
+                                    );
+                                    Navigator.pop(context);
+                                  } else {
+                                    DateTime dateTimeCreatedAt =
+                                        thirtyMinutesFromNow;
 
-                                //     DateTime dateTimeNow =
-                                //         snapshot.data[0].timeStamp;
-                                //     final differenceInDays = dateTimeNow
-                                //         .difference(dateTimeCreatedAt)
-                                //         .inMinutes;
-                                //     setState(() {
-                                //       _error =
-                                //           'You have recently posted within 30 minutes. Please wait $differenceInDays minutes before trying to post again';
-                                //     });
-                                //   }
-                                // }
+                                    DateTime dateTimeNow =
+                                        snapshot.data[0].timeStamp;
+                                    final differenceInDays = dateTimeNow
+                                        .difference(dateTimeCreatedAt)
+                                        .inMinutes;
+                                    setState(() {
+                                      _error =
+                                          'You have recently posted within 15 minutes. Please wait $differenceInDays minutes before trying to post again';
+                                    });
+                                  }
+                                }
                               }
                             },
                             child: Text(

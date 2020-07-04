@@ -14,6 +14,8 @@ class AllDonorData {
   final String status;
   final DateTime recoveryDate;
   final DateTime timeStamp;
+  final String myName;
+  final String myEmail;
 
   AllDonorData(
       {this.uid,
@@ -24,7 +26,9 @@ class AllDonorData {
       this.gender,
       this.status,
       this.recoveryDate,
-      this.timeStamp});
+      this.timeStamp,
+      this.myName,
+      this.myEmail});
 }
 
 class AllRequestData {

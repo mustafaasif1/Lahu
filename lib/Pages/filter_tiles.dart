@@ -1,12 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:lahu/Chats/chat_database.dart';
+import 'package:lahu/Chats/conversation_screen.dart';
+import 'package:lahu/Chats/search.dart';
+import 'package:lahu/Helper/constants.dart';
 import 'package:lahu/Models/lahu_data_class.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
 
-class FilterTile extends StatelessWidget {
+class FilterTile extends StatefulWidget {
   final LahuDataObject lahuObject;
   FilterTile({this.lahuObject});
+
+  @override
+  _FilterTileState createState() => _FilterTileState();
+}
+
+class _FilterTileState extends State<FilterTile> {
+  createChatRoomAndStartConversation(String userName, String userEmail) {
+    if (userEmail != Constants.myEmail) {
+      String chatRoomID = getChatRoomId(userEmail, Constants.myEmail);
+
+      List<String> users = [userEmail, Constants.myEmail];
+      List<String> usersName = [userName, Constants.myName];
+
+      Map<String, dynamic> chatRoomMap = {
+        "users": users,
+        "usersName": usersName,
+        "chatroomId": chatRoomID,
+      };
+
+      Map<String, dynamic> unseenMessages = {
+        userName.toString(): 0,
+        Constants.myName.toString(): 0
+      };
+
+      DatabaseMethods().createChatRoom(chatRoomID, chatRoomMap, unseenMessages);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ConversationScreen(chatRoomID, userName, Constants.myName)));
+    } else {
+      final snackBar = SnackBar(
+        content: Text('You can not message yourself'),
+      );
+
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +66,7 @@ class FilterTile extends StatelessWidget {
             children: <Widget>[
               ListTile(
                 trailing: Wrap(
-                  spacing: 12, // space between two icons
+                  spacing: -4, // space between two icons
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.phone),
@@ -33,7 +75,7 @@ class FilterTile extends StatelessWidget {
                         context: context,
                         //type: AlertType.error,
                         title:
-                            "Are you sure you want to call ${lahuObject.name}?",
+                            "Are you sure you want to call ${widget.lahuObject.name}?",
                         buttons: [
                           DialogButton(
                             child: Text(
@@ -42,8 +84,36 @@ class FilterTile extends StatelessWidget {
                                   TextStyle(color: Colors.white, fontSize: 20),
                             ),
                             onPressed: () {
-                              String number = "tel://${lahuObject.phoneNumber}";
+                              String number =
+                                  "tel://${widget.lahuObject.phoneNumber}";
                               launch(number);
+                            },
+                            width: 120,
+                          ),
+                        ],
+                      ).show(),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.message),
+                      tooltip: 'Chat with this person',
+                      //onPressed: () {createChatRoomAndStartConversation(widget.lahuObject.myName, widget.lahuObject.myEmail);},
+                      onPressed: () => Alert(
+                        context: context,
+                        //type: AlertType.error,
+                        title:
+                            "Are you sure you want to message ${widget.lahuObject.name}?",
+                        buttons: [
+                          DialogButton(
+                            child: Text(
+                              "Yes",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              createChatRoomAndStartConversation(
+                                  widget.lahuObject.myName,
+                                  widget.lahuObject.myEmail);
                             },
                             width: 120,
                           ),
@@ -56,7 +126,7 @@ class FilterTile extends StatelessWidget {
                   radius: 35.0,
                   backgroundColor: Colors.red[600],
                   child: Text(
-                    '${lahuObject.bloodType}',
+                    '${widget.lahuObject.bloodType}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -65,33 +135,33 @@ class FilterTile extends StatelessWidget {
                   ),
                 ),
                 title: Text(
-                  lahuObject.name,
+                  widget.lahuObject.name,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                    '${lahuObject.gender} - ${lahuObject.city} - ${lahuObject.phoneNumber}'),
+                    '${widget.lahuObject.gender} - ${widget.lahuObject.city}'),
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 2.0),
                   child: Text(
-                    'Status: ${lahuObject.status}',
+                    'Status: ${widget.lahuObject.status}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              if (lahuObject.status == "Corona Recovered")
+              if (widget.lahuObject.status == "Corona Recovered")
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16.0, 2.0, 16.0, 16.0),
                     child: Text(
-                      'Recovered on: ${DateFormat('dd-MM-yyyy').format(lahuObject.recoveryDate)}',
+                      'Recovered on: ${DateFormat('dd-MM-yyyy').format(widget.lahuObject.recoveryDate)}',
                       // style: TextStyle(
                       //   fontSize: 16.0,
                       // ),

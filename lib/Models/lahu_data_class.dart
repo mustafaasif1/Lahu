@@ -7,6 +7,8 @@ class LahuDataObject {
   final String status;
   final DateTime recoveryDate;
   final DateTime timeStamp;
+  final String myName;
+  final String myEmail;
 
   LahuDataObject(
       {this.name,
@@ -16,7 +18,9 @@ class LahuDataObject {
       this.gender,
       this.status,
       this.recoveryDate,
-      this.timeStamp});
+      this.timeStamp,
+      this.myName,
+      this.myEmail});
 }
 
 class LahuRequestObject {

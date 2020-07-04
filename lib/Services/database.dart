@@ -27,7 +27,7 @@ class DatabaseService {
       String gender,
       String status,
       DateTime recoveryDate,
-      DateTime timeStamp) async {
+      DateTime timeStamp, String myName, String myEmail) async {
     return await lahuCollection.document(uid).setData({
       'name': name,
       'phoneNumber': phoneNumber,
@@ -37,6 +37,8 @@ class DatabaseService {
       'status': status,
       'recoveryDate': recoveryDate,
       'timeStamp': timeStamp,
+      'myName': myName,
+      'myEmail': myEmail
     });
   }
 
@@ -117,6 +119,8 @@ class DatabaseService {
         status: doc.data['status'] ?? '',
         recoveryDate: doc.data['recoveryDate'].toDate() ?? null,
         timeStamp: doc.data['timeStamp'].toDate() ?? null,
+        myName: doc.data['myName'] ?? '',
+        myEmail: doc.data['myEmail'] ?? '',
       );
     }).toList();
   }
@@ -190,6 +194,8 @@ class DatabaseService {
       status: snapshot.data['status'],
       recoveryDate: snapshot.data['recoveryDate'].toDate(),
       timeStamp: snapshot.data['timeStamp'].toDate(),
+      myName: snapshot.data['myName'],
+      myEmail: snapshot.data['myEmail'],
     );
   }
 

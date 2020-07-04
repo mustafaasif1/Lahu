@@ -27,6 +27,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
       child: StreamBuilder(
           stream: chatMessagesStream,
           builder: (context, snapshot) {
+            Timer(
+                Duration(milliseconds: 500),
+                () => _scrollController
+                    .jumpTo(_scrollController.position.maxScrollExtent));
             return snapshot.hasData
                 ? ListView.builder(
                     controller: _scrollController,
@@ -56,8 +60,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
           .document(widget.chatRoomId)
           .updateData({widget.otherName: FieldValue.increment(1)});
       myController.text = "";
-      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
+
+      Timer(
+          Duration(milliseconds: 500),
+          () => _scrollController
+              .jumpTo(_scrollController.position.maxScrollExtent));
     }
   }
 
@@ -73,19 +80,16 @@ class _ConversationScreenState extends State<ConversationScreen> {
         .document(widget.chatRoomId)
         .updateData({Constants.myName.toString(): 0});
 
+    Timer(
+        Duration(milliseconds: 300),
+        () => _scrollController
+            .jumpTo(_scrollController.position.maxScrollExtent));
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Timer(
-        Duration(milliseconds: 500),
-        () => _scrollController
-            .jumpTo(_scrollController.position.maxScrollExtent));
-
-    // _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-    //     duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
-
     return Scaffold(
       appBar: AppBar(title: Text(widget.otherName)),
       body: Container(
@@ -110,6 +114,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     icon: new Icon(Icons.send),
                     onPressed: () {
                       sendMessage();
+                      Timer(
+                          Duration(milliseconds: 100),
+                          () => _scrollController.jumpTo(
+                              _scrollController.position.maxScrollExtent));
                     },
                   )
                   // GestureDetector(
@@ -145,14 +153,21 @@ class MessageTile extends StatelessWidget {
       child: Container(
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
-              color: isSentByMe ? Colors.red[800] : Colors.blue,
+              color: isSentByMe ? Colors.red[800] : Colors.grey[300],
               borderRadius: BorderRadius.circular(10)),
           child: Column(
             children: <Widget>[
               Text(message,
-                  style: TextStyle(fontSize: 17, color: Colors.white)),
-              Text(DateFormat('dd-MM-yy – kk:mm:yy').format(timestamp),
-                  style: TextStyle(fontSize: 10, color: Colors.grey[300]))
+                  style: isSentByMe
+                      ? TextStyle(fontSize: 17, color: Colors.white)
+                      : TextStyle(fontSize: 17, color: Colors.black)),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(DateFormat.yMd().add_jm().format(timestamp),
+                    style: isSentByMe
+                        ? TextStyle(fontSize: 10, color: Colors.grey[300])
+                        : TextStyle(fontSize: 10, color: Colors.grey[600])),
+              )
             ],
           )),
     );

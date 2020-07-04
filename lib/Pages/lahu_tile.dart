@@ -41,7 +41,11 @@ class _LahuTileState extends State<LahuTile> {
               builder: (context) =>
                   ConversationScreen(chatRoomID, userName, Constants.myName)));
     } else {
-      print("You can not message yourself");
+      final snackBar = SnackBar(
+        content: Text('You can not message yourself'),
+      );
+
+      Scaffold.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -137,8 +141,7 @@ class _LahuTileState extends State<LahuTile> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle: Text(
-                    '${widget.lahuObject.city} - ${widget.lahuObject.phoneNumber}'),
+                subtitle: Text('${widget.lahuObject.city}'),
               ),
               Align(
                 alignment: Alignment.centerLeft,
