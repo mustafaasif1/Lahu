@@ -18,27 +18,29 @@ class ConversationScreen extends StatefulWidget {
 
 class _ConversationScreenState extends State<ConversationScreen> {
   final myController = TextEditingController();
-
-  Stream chatMessagesStream;
   ScrollController _scrollController = new ScrollController();
 
+  Stream chatMessagesStream;
+
   Widget chatMessageList() {
-    return StreamBuilder(
-        stream: chatMessagesStream,
-        builder: (context, snapshot) {
-          return snapshot.hasData
-              ? ListView.builder(
-                  controller: _scrollController,
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) {
-                    return MessageTile(
-                        snapshot.data.documents[index].data["message"],
-                        snapshot.data.documents[index].data["sendBy"] ==
-                            Constants.myEmail,
-                        snapshot.data.documents[index].data["time"].toDate());
-                  })
-              : Container();
-        });
+    return Expanded(
+      child: StreamBuilder(
+          stream: chatMessagesStream,
+          builder: (context, snapshot) {
+            return snapshot.hasData
+                ? ListView.builder(
+                    controller: _scrollController,
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) {
+                      return MessageTile(
+                          snapshot.data.documents[index].data["message"],
+                          snapshot.data.documents[index].data["sendBy"] ==
+                              Constants.myEmail,
+                          snapshot.data.documents[index].data["time"].toDate());
+                    })
+                : Container();
+          }),
+    );
   }
 
   sendMessage() {
@@ -54,6 +56,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
           .document(widget.chatRoomId)
           .updateData({widget.otherName: FieldValue.increment(1)});
       myController.text = "";
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
     }
   }
 
@@ -68,22 +72,31 @@ class _ConversationScreenState extends State<ConversationScreen> {
         .collection('unseen_messages')
         .document(widget.chatRoomId)
         .updateData({Constants.myName.toString(): 0});
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
+    Timer(
+        Duration(milliseconds: 500),
+        () => _scrollController
+            .jumpTo(_scrollController.position.maxScrollExtent));
+
+    // _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+    //     duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.otherName)),
       body: Container(
-          child: Stack(
+          child: Column(
         children: <Widget>[
           chatMessageList(),
           Container(
             alignment: Alignment.bottomCenter,
             child: Container(
+              //decoration: BoxDecoration(borderRadius: BorderRadius.circular(3)),
+              color: Colors.grey[200],
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Row(
                 children: <Widget>[
@@ -94,7 +107,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     ),
                   ),
                   IconButton(
-                    icon: new Icon(Icons.message),
+                    icon: new Icon(Icons.send),
                     onPressed: () {
                       sendMessage();
                     },

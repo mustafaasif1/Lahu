@@ -24,14 +24,18 @@ class _ChatHomePageState extends State<ChatHomePage> {
             ? ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
+                  String otherName = Constants.myName ==
+                          snapshot.data.documents[index].data["usersName"][1]
+                      ? snapshot.data.documents[index].data["usersName"][0]
+                      : snapshot.data.documents[index].data["usersName"][1];
                   return ChatRoomsTile(
                     snapshot.data.documents[index].data["chatroomId"]
                         .toString()
                         .replaceAll("_", "")
                         .replaceAll(Constants.myEmail, ""),
                     snapshot.data.documents[index].data["chatroomId"],
-                    snapshot.data.documents[index].data["usersName"][1],
-                    snapshot.data.documents[index].data["usersName"][0],
+                    otherName,
+                    Constants.myName,
                   );
                 })
             : Container();
@@ -167,7 +171,8 @@ class _ChatRoomsTileState extends State<ChatRoomsTile> {
               );
             },
             child: ListTile(
-              title: Text(widget.userEmail),
+              title: Text(widget.userName),
+              subtitle: Text(widget.userEmail),
               leading: CircleAvatar(
                   radius: 20.0,
                   backgroundColor: Colors.red[600],
