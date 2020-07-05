@@ -9,6 +9,7 @@ class LahuDataObject {
   final DateTime timeStamp;
   final String myName;
   final String myEmail;
+  final bool hidePhoneNumber;
 
   LahuDataObject(
       {this.name,
@@ -20,7 +21,8 @@ class LahuDataObject {
       this.recoveryDate,
       this.timeStamp,
       this.myName,
-      this.myEmail});
+      this.myEmail,
+      this.hidePhoneNumber});
 }
 
 class LahuRequestObject {
@@ -35,6 +37,7 @@ class LahuRequestObject {
   final DateTime timeStamp;
   final String myName;
   final String myEmail;
+  final bool hidePhoneNumber;
 
   LahuRequestObject(
       {this.uid,
@@ -47,5 +50,6 @@ class LahuRequestObject {
       this.status,
       this.timeStamp,
       this.myName,
-      this.myEmail});
+      this.myEmail,
+      this.hidePhoneNumber});
 }

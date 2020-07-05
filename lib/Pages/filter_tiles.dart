@@ -68,31 +68,32 @@ class _FilterTileState extends State<FilterTile> {
                 trailing: Wrap(
                   spacing: -4, // space between two icons
                   children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.phone),
-                      tooltip: 'Call this person',
-                      onPressed: () => Alert(
-                        context: context,
-                        //type: AlertType.error,
-                        title:
-                            "Are you sure you want to call ${widget.lahuObject.name}?",
-                        buttons: [
-                          DialogButton(
-                            child: Text(
-                              "Yes",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                    if (widget.lahuObject.hidePhoneNumber != true)
+                      IconButton(
+                        icon: Icon(Icons.phone),
+                        tooltip: 'Call this person',
+                        onPressed: () => Alert(
+                          context: context,
+                          //type: AlertType.error,
+                          title:
+                              "Are you sure you want to call ${widget.lahuObject.name}?",
+                          buttons: [
+                            DialogButton(
+                              child: Text(
+                                "Yes",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                              onPressed: () {
+                                String number =
+                                    "tel://${widget.lahuObject.phoneNumber}";
+                                launch(number);
+                              },
+                              width: 120,
                             ),
-                            onPressed: () {
-                              String number =
-                                  "tel://${widget.lahuObject.phoneNumber}";
-                              launch(number);
-                            },
-                            width: 120,
-                          ),
-                        ],
-                      ).show(),
-                    ),
+                          ],
+                        ).show(),
+                      ),
                     IconButton(
                       icon: Icon(Icons.message),
                       tooltip: 'Chat with this person',
@@ -119,7 +120,7 @@ class _FilterTileState extends State<FilterTile> {
                           ),
                         ],
                       ).show(),
-                    ), // icon-1
+                    )
                   ],
                 ),
                 leading: CircleAvatar(

@@ -67,6 +67,7 @@ class _LahuTileState extends State<LahuTile> {
                 trailing: Wrap(
                   spacing: -4, // space between two icons
                   children: <Widget>[
+                    if (widget.lahuObject.hidePhoneNumber != true)
                     IconButton(
                       icon: Icon(Icons.phone),
                       tooltip: 'Call this person',

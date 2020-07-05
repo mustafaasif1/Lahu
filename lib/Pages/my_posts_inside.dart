@@ -37,14 +37,16 @@ class _MyPostsInsideState extends State<MyPostsInside> {
               //     ],
               //   ),
               // ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: lahuData.length,
-                  itemBuilder: (context, index) {
-                    return MyPostTiles(lahuObject: lahuData[index]);
-                  },
-                ),
-              ),
+              lahuData.isEmpty
+                  ? Center(child: Text('You do have have any posts '))
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: lahuData.length,
+                        itemBuilder: (context, index) {
+                          return MyPostTiles(lahuObject: lahuData[index]);
+                        },
+                      ),
+                    )
             ],
           ),
         ),

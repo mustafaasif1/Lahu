@@ -16,6 +16,7 @@ class AllDonorData {
   final DateTime timeStamp;
   final String myName;
   final String myEmail;
+  final bool hidePhoneNumber;
 
   AllDonorData(
       {this.uid,
@@ -28,7 +29,8 @@ class AllDonorData {
       this.recoveryDate,
       this.timeStamp,
       this.myName,
-      this.myEmail});
+      this.myEmail,
+      this.hidePhoneNumber});
 }
 
 class AllRequestData {
@@ -43,6 +45,7 @@ class AllRequestData {
   final DateTime timeStamp;
   final String myName;
   final String myEmail;
+  final bool hidePhoneNumber;
 
   AllRequestData(
       {this.uid,
@@ -55,5 +58,6 @@ class AllRequestData {
       this.status,
       this.timeStamp,
       this.myName,
-      this.myEmail});
+      this.myEmail,
+      this.hidePhoneNumber});
 }

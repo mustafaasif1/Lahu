@@ -18,7 +18,8 @@ class ConversationScreen extends StatefulWidget {
 
 class _ConversationScreenState extends State<ConversationScreen> {
   final myController = TextEditingController();
-  ScrollController _scrollController = new ScrollController();
+  ScrollController _scrollController =
+      ScrollController(initialScrollOffset: 50.0);
 
   Stream chatMessagesStream;
 
@@ -79,11 +80,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
         .collection('unseen_messages')
         .document(widget.chatRoomId)
         .updateData({Constants.myName.toString(): 0});
-
-    Timer(
-        Duration(milliseconds: 300),
-        () => _scrollController
-            .jumpTo(_scrollController.position.maxScrollExtent));
+    if (_scrollController.hasClients)
+      Timer(
+          Duration(milliseconds: 300),
+          () => _scrollController
+              .jumpTo(_scrollController.position.maxScrollExtent));
 
     super.initState();
   }

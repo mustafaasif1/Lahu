@@ -63,7 +63,12 @@ class _ChatHomePageState extends State<ChatHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('My Chats')),
-      body: chatRoomList(),
+      body: Container(
+          child: Column(
+        children: <Widget>[
+          Expanded(child: chatRoomList()),
+        ],
+      )),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
         onPressed: () {
@@ -72,30 +77,6 @@ class _ChatHomePageState extends State<ChatHomePage> {
         },
       ),
     );
-
-    // return Scaffold(
-    //   appBar: AppBar(title: Text('My Chats')),
-    //   body: Container(
-    //     child: StreamBuilder(
-    //       stream: Firestore.instance.collection('user_data').snapshots(),
-    //       builder: (context, snapshot) {
-    //         if (!snapshot.hasData) {
-    //           return Center(
-    //             child: CircularProgressIndicator(
-    //                 //valueColor: AlwaysStoppedAnimation<Color>(themeColor),
-    //                 ),
-    //           );
-    //         } else {
-    //           return ListView.builder(
-    //               padding: EdgeInsets.all(10.0),
-    //               itemCount: snapshot.data.documents.length,
-    //               itemBuilder: (BuildContext context, int index) =>
-    //                   Text('${snapshot.data.documents[index]['name']}'));
-    //         }
-    //       },
-    //     ),
-    //   ),
-    // );
   }
 }
 
@@ -119,37 +100,6 @@ class _ChatRoomsTileState extends State<ChatRoomsTile> {
     //getUnseenMessages();
     super.initState();
   }
-
-  // getUnseenMessages() async {
-  //   await Firestore.instance
-  //       .collection('unseen_messages')
-  //       .document(widget.chatRoom)
-  //       .get()
-  //       .then((value) {
-  //     setState(() {
-  //       unseenMessages = value.data[Constants.myName];
-
-  //       print(unseenMessages);
-  //     });
-
-  //     //print(value.data["unseenMessages"][Constants.myEmail]);
-  //   });
-  // }
-
-//   Widget build(BuildContext context) {
-//   return StreamBuilder(
-//       stream: Firestore.instance
-//         .collection('unseen_messages')
-//         .document(widget.chatRoom).snapshots(),
-//       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-//         if (!snapshot.hasData) {
-//           return Text("Loading");
-//         }
-//         var userDocument = snapshot.data;
-//         return Text(userDocument["name"]);
-//       }
-//   );
-// }
 
   @override
   Widget build(BuildContext context) {

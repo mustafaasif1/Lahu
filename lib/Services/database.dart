@@ -27,7 +27,10 @@ class DatabaseService {
       String gender,
       String status,
       DateTime recoveryDate,
-      DateTime timeStamp, String myName, String myEmail) async {
+      DateTime timeStamp,
+      String myName,
+      String myEmail,
+      bool hidePhoneNumber) async {
     return await lahuCollection.document(uid).setData({
       'name': name,
       'phoneNumber': phoneNumber,
@@ -38,7 +41,8 @@ class DatabaseService {
       'recoveryDate': recoveryDate,
       'timeStamp': timeStamp,
       'myName': myName,
-      'myEmail': myEmail
+      'myEmail': myEmail,
+      'hidePhoneNumber': hidePhoneNumber
     });
   }
 
@@ -53,7 +57,8 @@ class DatabaseService {
       String status,
       DateTime timeStamp,
       String myName,
-      String myEmail) async {
+      String myEmail,
+      bool hidePhoneNumber) async {
     return await lahuRequestCollection.add({
       'uid': uid,
       'name': name,
@@ -65,7 +70,8 @@ class DatabaseService {
       'status': status,
       'timeStamp': timeStamp,
       'myName': myName,
-      'myEmail': myEmail
+      'myEmail': myEmail,
+      'hidePhoneNumber': hidePhoneNumber
     });
   }
 
@@ -121,6 +127,7 @@ class DatabaseService {
         timeStamp: doc.data['timeStamp'].toDate() ?? null,
         myName: doc.data['myName'] ?? '',
         myEmail: doc.data['myEmail'] ?? '',
+        hidePhoneNumber: doc.data['hidePhoneNumber'] ?? true,
       );
     }).toList();
   }
@@ -141,6 +148,7 @@ class DatabaseService {
         timeStamp: doc.data['timeStamp'].toDate() ?? null,
         myName: doc.data['myName'] ?? '',
         myEmail: doc.data['myEmail'] ?? '',
+        hidePhoneNumber: doc.data['hidePhoneNumber'] ?? true
       );
     }).toList();
   }
@@ -185,21 +193,21 @@ class DatabaseService {
   // Convert firebase object to AllDonorData object
   AllDonorData _userDatafromSnapShot(DocumentSnapshot snapshot) {
     return AllDonorData(
-      uid: uid,
-      name: snapshot.data['name'],
-      city: snapshot.data['city'],
-      bloodType: snapshot.data['bloodType'],
-      phoneNumber: snapshot.data['phoneNumber'],
-      gender: snapshot.data['gender'],
-      status: snapshot.data['status'],
-      recoveryDate: snapshot.data['recoveryDate'].toDate(),
-      timeStamp: snapshot.data['timeStamp'].toDate(),
-      myName: snapshot.data['myName'],
-      myEmail: snapshot.data['myEmail'],
-    );
+        uid: uid,
+        name: snapshot.data['name'],
+        city: snapshot.data['city'],
+        bloodType: snapshot.data['bloodType'],
+        phoneNumber: snapshot.data['phoneNumber'],
+        gender: snapshot.data['gender'],
+        status: snapshot.data['status'],
+        recoveryDate: snapshot.data['recoveryDate'].toDate(),
+        timeStamp: snapshot.data['timeStamp'].toDate(),
+        myName: snapshot.data['myName'],
+        myEmail: snapshot.data['myEmail'],
+        hidePhoneNumber: snapshot.data['hidePhoneNumber']);
   }
 
-  // Convert firebase object to AllDonorData object
+  // Convert firebase object to AllRequestData object
   AllRequestData _requestBloodDatafromSnapShot(DocumentSnapshot snapshot) {
     return AllRequestData(
       uid: snapshot.data['uid'],
@@ -213,6 +221,7 @@ class DatabaseService {
       timeStamp: snapshot.data['timeStamp'].toDate(),
       myName: snapshot.data['myName'],
       myEmail: snapshot.data['myEmail'],
+      hidePhoneNumber: snapshot.data['hidePhoneNumber']
     );
   }
 

@@ -6,10 +6,6 @@ import 'package:lahu/Services/database.dart';
 import 'package:intl/intl.dart';
 
 class AskData extends StatefulWidget {
-  // final Function askdata;
-
-  // AskData({this.askdata});
-
   @override
   _AskDataState createState() => _AskDataState();
 }
@@ -127,6 +123,7 @@ class _AskDataState extends State<AskData> {
 
   bool checkedValue = false;
   bool _showcalender = false;
+  bool _hidePhoneNumber = false;
   String _showDate = "Pick a date";
   DateTime now = DateTime.now();
 
@@ -242,16 +239,26 @@ class _AskDataState extends State<AskData> {
                         ),
                         keyboardType: TextInputType.number,
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Text(
-                      //     "Your number will not be displayed without your consent",
-                      //     style: TextStyle(
-                      //       fontWeight: FontWeight.bold,
-                      //       fontSize: 15.0,
-                      //     ),
-                      //   ),
-                      // ),
+                      CheckboxListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Your number will not be displayed without your consent. Please tick the box if you want to hide your number",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ),
+                        value: _hidePhoneNumber,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _hidePhoneNumber = newValue;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.trailing,
+                      ),
+
                       SizedBox(height: 20.0),
                       DropdownButtonFormField<String>(
                         hint: Text('Select Blood Group'),
@@ -463,17 +470,17 @@ class _AskDataState extends State<AskData> {
                                 }
                                 await DatabaseService(uid: user.uid)
                                     .updateUserData(
-                                  _currentName,
-                                  _currentPhoneNumber,
-                                  _currentBloodType,
-                                  _currentCity,
-                                  _currentGender,
-                                  _currentStatus,
-                                  _recoveryDateTime,
-                                  DateTime.now(),
-                                  Constants.myName,
-                                  Constants.myEmail
-                                );
+                                        _currentName,
+                                        _currentPhoneNumber,
+                                        _currentBloodType,
+                                        _currentCity,
+                                        _currentGender,
+                                        _currentStatus,
+                                        _recoveryDateTime,
+                                        DateTime.now(),
+                                        Constants.myName,
+                                        Constants.myEmail,
+                                        _hidePhoneNumber);
                                 // Navigator.pop(context);
 
                                 // print(_currentName);
@@ -592,6 +599,21 @@ class _AskDataState extends State<AskData> {
                               fontSize: 20.0,
                             ),
                           ),
+                          if (donorData.hidePhoneNumber == true)
+                            Column(
+                              children: <Widget>[
+                                SizedBox(height: 20.0),
+                                Text(
+                                  'Your number is hidden',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+
                           SizedBox(height: 20.0),
 
                           Text(

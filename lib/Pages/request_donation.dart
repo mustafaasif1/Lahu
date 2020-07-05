@@ -50,6 +50,7 @@ class _RequestDonationState extends State<RequestDonation> {
   String _currentCity;
   String _currentStatus;
   String _currentGender;
+  bool _hidePhoneNumber = false;
 
   String _error = '';
 
@@ -136,6 +137,25 @@ class _RequestDonationState extends State<RequestDonation> {
                           hintText: 'Phone Number',
                         ),
                         keyboardType: TextInputType.number,
+                      ),
+                      CheckboxListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Your number will not be displayed without your consent. Please tick the box if you want to hide your number",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ),
+                        value: _hidePhoneNumber,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _hidePhoneNumber = newValue;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.trailing,
                       ),
                       SizedBox(height: 20.0),
                       TextFormField(
@@ -344,6 +364,7 @@ class _RequestDonationState extends State<RequestDonation> {
                                     DateTime.now(),
                                     Constants.myName,
                                     Constants.myEmail,
+                                    _hidePhoneNumber
                                   );
                                   Navigator.pop(context);
                                 } else {
@@ -367,6 +388,7 @@ class _RequestDonationState extends State<RequestDonation> {
                                       DateTime.now(),
                                       Constants.myName,
                                       Constants.myEmail,
+                                      _hidePhoneNumber
                                     );
                                     Navigator.pop(context);
                                   } else {
